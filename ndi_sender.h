@@ -1,22 +1,21 @@
-#ifndef NDI_SENDER_H
-#define NDI_SENDER_H
+#ifndef NDISENDER_H
+#define NDISENDER_H
 
-#include <cstddef>  // For NULL definition, if necessary
-#include <iostream> // Include other necessary headers
 #include <Processing.NDI.Lib.h>
 #include <QObject>
+#include <QImage>  // Include QImage here
 
-class NDISender : public QObject{
+class NDISender : public QObject {
     Q_OBJECT
 public:
     NDISender();
     ~NDISender();
+
     void initializeSender();
-    void sendFrame(const QImage &frame);
+    void sendFrame(const QImage &frame);  // Declaration of sendFrame
+
 private:
     NDIlib_send_instance_t ndi_send_instance;
 };
 
-
-
-#endif // NDI_SENDER_H
+#endif // NDISENDER_H

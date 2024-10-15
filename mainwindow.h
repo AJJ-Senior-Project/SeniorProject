@@ -2,11 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "ndi_sender.h"  // Include NDISender
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
-}
+namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -19,5 +18,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    NDISender *ndiSender;  // Declare an NDISender instance
 };
+
 #endif // MAINWINDOW_H

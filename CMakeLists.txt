@@ -17,6 +17,8 @@ set(PROJECT_SOURCES
     mainwindow.cpp
     mainwindow.h
     mainwindow.ui
+    ndi_sender.cpp
+    ndi_sender.h
 )
 
 add_executable(NDIQtBackend ${PROJECT_SOURCES}
@@ -25,7 +27,7 @@ add_executable(NDIQtBackend ${PROJECT_SOURCES}
 target_link_libraries(NDIQtBackend Qt6::Core Qt6::Gui Qt6::Widgets)
 
 # Change this to your NDI SDK path
-set(NDI_SDK_PATH "C:/Program Files/NDI/NDI 6 SDK")
+set(NDI_SDK_PATH "C:/Program Files/NDI/NDI6SDK")
 include_directories(${NDI_SDK_PATH}/Include)  # Ensure this is the correct include path
 
 # Specify the exact library name
