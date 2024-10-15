@@ -1,0 +1,106 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-063e4c8f393ba009b8c8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "StreamNDI",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						4,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "NDIQtBackend::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-NDIQtBackend-Debug-62bd1a2b8a2366967ea1.json",
+					"name" : "NDIQtBackend",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "NDIQtBackend_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-NDIQtBackend_autogen-Debug-ebb69be0f8c7d0f38270.json",
+					"name" : "NDIQtBackend_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "NDIQtBackend_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-NDIQtBackend_autogen_timestamp_deps-Debug-af094b2884d64e40b24c.json",
+					"name" : "NDIQtBackend_autogen_timestamp_deps",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "StreamNDI::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-StreamNDI-Debug-56c2d11c27ce24369503.json",
+					"name" : "StreamNDI",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "StreamNDI_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-StreamNDI_autogen-Debug-c02b2a4d19e737fe115b.json",
+					"name" : "StreamNDI_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "StreamNDI_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-StreamNDI_autogen_timestamp_deps-Debug-9cadfec31fe700b2436e.json",
+					"name" : "StreamNDI_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/Andy/Documents/StreamNDI/build/Desktop_Qt_6_7_3_MinGW_64_bit-Debug",
+		"source" : "C:/Users/Andy/Documents/StreamNDI"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}
