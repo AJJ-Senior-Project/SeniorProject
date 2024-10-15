@@ -145,10 +145,8 @@ C:/College/Fall\ 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Deb
   C:/Qt2/6.8.0/mingw_64/include/QtGui/qtransform.h \
   C:/Qt2/6.8.0/mingw_64/include/QtGui/qwindowdefs.h \
   C:/Qt2/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
-  C:/Qt2/6.8.0/mingw_64/include/QtWidgets/QMainWindow \
-  C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h \
+  C:/Qt2/6.8.0/mingw_64/include/QtWidgets/QWidget \
   C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h \
-  C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qtabwidget.h \
   C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qtwidgets-config.h \
   C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qtwidgetsexports.h \
   C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qtwidgetsglobal.h \

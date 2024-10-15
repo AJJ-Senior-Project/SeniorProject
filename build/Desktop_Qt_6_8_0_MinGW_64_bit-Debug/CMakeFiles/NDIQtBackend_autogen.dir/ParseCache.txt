@@ -148,10 +148,8 @@ C:/College/Fall 5/CIS4914/SeniorProject/mainwindow.h
  mdp:C:/Qt2/6.8.0/mingw_64/include/QtGui/qtransform.h
  mdp:C:/Qt2/6.8.0/mingw_64/include/QtGui/qwindowdefs.h
  mdp:C:/Qt2/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h
- mdp:C:/Qt2/6.8.0/mingw_64/include/QtWidgets/QMainWindow
- mdp:C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qmainwindow.h
+ mdp:C:/Qt2/6.8.0/mingw_64/include/QtWidgets/QWidget
  mdp:C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h
- mdp:C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qtabwidget.h
  mdp:C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qtwidgets-config.h
  mdp:C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qtwidgetsexports.h
  mdp:C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qtwidgetsglobal.h
