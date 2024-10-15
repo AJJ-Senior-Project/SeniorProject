@@ -1,3 +1,7 @@
+Make sure CMakeLists is using correct NDI SDK directory.
+<br>
+<br>
+
 # Abstract <br>
 The project proposed here is the development of an NDI based system that will be used for
 esports broadcasting (most likely local tournaments), managing multiple incoming video feeds
