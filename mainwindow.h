@@ -17,6 +17,15 @@ public:
     mainpage(QWidget *parent = nullptr);
     ~mainpage();
 
+private slots:
+    void on_selectSendButton_clicked();
+
+    void on_selectReceiveButton_clicked();
+
+    void on_senderBackButton_clicked();
+
+    void on_receiverBackButton_clicked();
+
 private:
     Ui::mainpage *ui;
 };
