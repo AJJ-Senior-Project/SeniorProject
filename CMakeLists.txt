@@ -9,8 +9,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+# Only use Qt6, ensure it's required.
+find_package(Qt6 REQUIRED COMPONENTS Widgets Multimedia MultimediaWidgets)
 
 set(PROJECT_SOURCES
     main.cpp
@@ -22,7 +22,9 @@ set(PROJECT_SOURCES
 add_executable(NDIQtBackend ${PROJECT_SOURCES}
     ndi_sender.h
     ndi_sender.cpp)
-target_link_libraries(NDIQtBackend Qt6::Core Qt6::Gui Qt6::Widgets)
+
+# Link Qt6 libraries correctly
+target_link_libraries(NDIQtBackend Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Multimedia Qt6::MultimediaWidgets)
 
 # Change this to your NDI SDK path
 set(NDI_SDK_PATH "C:/Program Files/NDI/NDI 6 SDK")
@@ -40,24 +42,13 @@ else()
     message(FATAL_ERROR "NDI library not found at ${NDI_SDK_PATH}/Lib/x64")
 endif()
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable(StreamNDI
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
-    )
-else()
-    if(ANDROID)
-        add_library(StreamNDI SHARED ${PROJECT_SOURCES})
-    else()
-        add_executable(StreamNDI ${PROJECT_SOURCES})
-    endif()
-endif()
+qt_add_executable(StreamNDI
+    MANUAL_FINALIZATION
+    ${PROJECT_SOURCES}
+)
 
-target_link_libraries(StreamNDI PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
-
-if(${QT_VERSION} VERSION_LESS 6.1.0)
-    set(MACOSX_BUNDLE_GUI_IDENTIFIER com.example.StreamNDI)
-endif()
+# Link Qt Multimedia and Widgets components properly for StreamNDI
+target_link_libraries(StreamNDI PRIVATE Qt6::Widgets Qt6::Multimedia Qt6::MultimediaWidgets)
 
 set_target_properties(StreamNDI PROPERTIES
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
@@ -73,6 +64,4 @@ install(TARGETS StreamNDI
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
 
-if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable(StreamNDI)
-endif()
+qt_finalize_executable(StreamNDI)

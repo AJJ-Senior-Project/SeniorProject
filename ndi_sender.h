@@ -5,6 +5,24 @@
 #include <iostream> // Include other necessary headers
 #include <Processing.NDI.Lib.h>
 #include <QObject>
+#include <QDebug>
+#include <iostream>
+#include <sstream>
+#include <fstream>
+#include <thread>
+#include <QCamera>
+#include <QAudioInput>
+#include <QAudioFormat>
+#include <QVideoFrame>
+#include <QIODevice>
+#include <QByteArray>
+#include <QImage>
+#include <QMediaDevices>
+#include <QMediaCaptureSession>
+#include <QTimer>
+#include <QVideoSink>
+#include <QBuffer>
+#include <iostream>
 
 class NDISender : public QObject{
     Q_OBJECT

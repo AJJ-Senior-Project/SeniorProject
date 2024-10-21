@@ -25,15 +25,20 @@
 		"files" : 
 		[
 			"CMakeLists.txt",
-			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Core/Qt6CoreTargets.cmake",
-			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake",
+			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6GuiTargets.cmake",
+			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6GuiConfig.cmake",
 			"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeFindDependencyMacro.cmake",
 			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake",
 			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake",
 			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake",
 			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6/Qt6Config.cmake",
-			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6GuiTargets.cmake",
-			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6GuiConfig.cmake"
+			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaTargets.cmake",
+			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfig.cmake",
+			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Core/Qt6CoreTargets.cmake",
+			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake",
+			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets.cmake",
+			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfig.cmake",
+			"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaDependencies.cmake"
 		],
 		"nodes" : 
 		[
@@ -49,13 +54,13 @@
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 25,
+				"line" : 27,
 				"parent" : 0
 			},
 			{
 				"command" : 1,
 				"file" : 0,
-				"line" : 38,
+				"line" : 40,
 				"parent" : 0
 			},
 			{
@@ -113,7 +118,7 @@
 			{
 				"command" : 3,
 				"file" : 2,
-				"line" : 57,
+				"line" : 55,
 				"parent" : 13
 			},
 			{
@@ -127,6 +132,32 @@
 				"parent" : 15
 			},
 			{
+				"command" : 4,
+				"file" : 7,
+				"line" : 181,
+				"parent" : 5
+			},
+			{
+				"file" : 9,
+				"parent" : 17
+			},
+			{
+				"command" : 3,
+				"file" : 9,
+				"line" : 55,
+				"parent" : 18
+			},
+			{
+				"file" : 8,
+				"parent" : 19
+			},
+			{
+				"command" : 2,
+				"file" : 8,
+				"line" : 61,
+				"parent" : 20
+			},
+			{
 				"command" : 5,
 				"file" : 4,
 				"line" : 143,
@@ -136,32 +167,80 @@
 				"command" : 4,
 				"file" : 3,
 				"line" : 76,
-				"parent" : 17
+				"parent" : 22
 			},
 			{
-				"file" : 9,
-				"parent" : 18
+				"file" : 11,
+				"parent" : 23
+			},
+			{
+				"command" : 3,
+				"file" : 11,
+				"line" : 57,
+				"parent" : 24
+			},
+			{
+				"file" : 10,
+				"parent" : 25
+			},
+			{
+				"command" : 2,
+				"file" : 10,
+				"line" : 61,
+				"parent" : 26
 			},
 			{
 				"command" : 3,
 				"file" : 9,
-				"line" : 55,
-				"parent" : 19
+				"line" : 43,
+				"parent" : 18
 			},
 			{
-				"file" : 8,
-				"parent" : 20
+				"file" : 14,
+				"parent" : 28
+			},
+			{
+				"command" : 6,
+				"file" : 14,
+				"line" : 43,
+				"parent" : 29
+			},
+			{
+				"command" : 5,
+				"file" : 4,
+				"line" : 143,
+				"parent" : 30
+			},
+			{
+				"command" : 4,
+				"file" : 3,
+				"line" : 76,
+				"parent" : 31
+			},
+			{
+				"file" : 13,
+				"parent" : 32
+			},
+			{
+				"command" : 3,
+				"file" : 13,
+				"line" : 55,
+				"parent" : 33
+			},
+			{
+				"file" : 12,
+				"parent" : 34
 			},
 			{
 				"command" : 2,
-				"file" : 8,
+				"file" : 12,
 				"line" : 61,
-				"parent" : 21
+				"parent" : 35
 			},
 			{
 				"command" : 7,
 				"file" : 0,
-				"line" : 29,
+				"line" : 31,
 				"parent" : 0
 			}
 		]
@@ -188,6 +267,18 @@
 				{
 					"backtrace" : 2,
 					"define" : "QT_GUI_LIB"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "QT_MULTIMEDIAWIDGETS_LIB"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "QT_MULTIMEDIA_LIB"
+				},
+				{
+					"backtrace" : 2,
+					"define" : "QT_NETWORK_LIB"
 				},
 				{
 					"backtrace" : 2,
@@ -225,7 +316,7 @@
 					"path" : "C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/NDIQtBackend_autogen/include"
 				},
 				{
-					"backtrace" : 23,
+					"backtrace" : 37,
 					"path" : "C:/Program Files/NDI/NDI 6 SDK/Include"
 				},
 				{
@@ -252,6 +343,21 @@
 					"backtrace" : 2,
 					"isSystem" : true,
 					"path" : "C:/Qt2/6.8.0/mingw_64/include/QtWidgets"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "C:/Qt2/6.8.0/mingw_64/include/QtMultimedia"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "C:/Qt2/6.8.0/mingw_64/include/QtNetwork"
+				},
+				{
+					"backtrace" : 2,
+					"isSystem" : true,
+					"path" : "C:/Qt2/6.8.0/mingw_64/include/QtMultimediaWidgets"
 				}
 			],
 			"language" : "CXX",
@@ -298,7 +404,7 @@
 			},
 			{
 				"backtrace" : 2,
-				"fragment" : "C:\\Qt2\\6.8.0\\mingw_64\\lib\\libQt6Widgets.a",
+				"fragment" : "C:\\Qt2\\6.8.0\\mingw_64\\lib\\libQt6MultimediaWidgets.a",
 				"role" : "libraries"
 			},
 			{
@@ -308,7 +414,42 @@
 			},
 			{
 				"backtrace" : 2,
+				"fragment" : "C:\\Qt2\\6.8.0\\mingw_64\\lib\\libQt6Widgets.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "C:\\Qt2\\6.8.0\\mingw_64\\lib\\libQt6Multimedia.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
 				"fragment" : "C:\\Qt2\\6.8.0\\mingw_64\\lib\\libQt6Gui.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 16,
+				"fragment" : "-ld3d11",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 16,
+				"fragment" : "-ldxgi",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 16,
+				"fragment" : "-ldxguid",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 16,
+				"fragment" : "-ld3d12",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 21,
+				"fragment" : "C:\\Qt2\\6.8.0\\mingw_64\\lib\\libQt6Network.a",
 				"role" : "libraries"
 			},
 			{
@@ -317,33 +458,18 @@
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 16,
+				"backtrace" : 27,
 				"fragment" : "-lmpr",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 16,
+				"backtrace" : 27,
 				"fragment" : "-luserenv",
 				"role" : "libraries"
 			},
 			{
-				"backtrace" : 22,
-				"fragment" : "-ld3d11",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 22,
-				"fragment" : "-ldxgi",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 22,
-				"fragment" : "-ldxguid",
-				"role" : "libraries"
-			},
-			{
-				"backtrace" : 22,
-				"fragment" : "-ld3d12",
+				"backtrace" : 36,
+				"fragment" : "-lws2_32",
 				"role" : "libraries"
 			},
 			{
