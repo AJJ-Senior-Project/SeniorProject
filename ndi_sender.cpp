@@ -115,7 +115,7 @@ bool NDISender::sendVideoSource(const std::string& sourcePath) {
         ndiVideoFrame.yres = height;
         ndiVideoFrame.FourCC = NDIlib_FourCC_type_RGBX; // Use RGBX pixel format
         ndiVideoFrame.frame_rate_N = 30000; // 30fps (30,000/1000)
-        ndiVideoFrame.frame_rate_D = 1000;
+        ndiVideoFrame.frame_rate_D = 1000; //double check all input framerates dont need to match
 
         // Allocate memory for the video frame (width * height * 4 for RGBX)
         unsigned char* videoData = new unsigned char[width * height * 4];

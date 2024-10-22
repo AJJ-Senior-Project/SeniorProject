@@ -225,6 +225,10 @@ StreamNDI_autogen/timestamp: \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QGifPluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QGifPluginTargets-relwithdebinfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QGifPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICNSPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICNSPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICNSPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICNSPluginTargets.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICOPluginAdditionalTargetInfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICOPluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICOPluginTargets-relwithdebinfo.cmake \
@@ -249,10 +253,26 @@ StreamNDI_autogen/timestamp: \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginTargets-relwithdebinfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTgaPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTgaPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTgaPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTgaPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTiffPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTiffPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTiffPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTiffPluginTargets.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginAdditionalTargetInfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginTargets-relwithdebinfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWbmpPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWbmpPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWbmpPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWbmpPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWebpPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWebpPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWebpPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWebpPluginTargets.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWindowsDirect2DIntegrationPluginAdditionalTargetInfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWindowsDirect2DIntegrationPluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWindowsDirect2DIntegrationPluginTargets-relwithdebinfo.cmake \
@@ -269,6 +289,57 @@ StreamNDI_autogen/timestamp: \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets-relwithdebinfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsVersionlessTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfigVersion.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfigVersionImpl.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaDependencies.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaMacros.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaPlugins.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaVersionlessAliasTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsConfigVersion.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsConfigVersionImpl.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsDependencies.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsVersionlessAliasTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersion.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersionImpl.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkDependencies.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkPlugins.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkVersionlessAliasTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginAdditionalTargetInfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets-relwithdebinfo.cmake \

@@ -23,7 +23,12 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Program\ Files/NDI/NDI\ 6\ SDK/Include/Processing.NDI.deprecated.h \
 	C:/Program\ Files/NDI/NDI\ 6\ SDK/Include/Processing.NDI.structs.h \
 	C:/Program\ Files/NDI/NDI\ 6\ SDK/Include/Processing.NDI.utilities.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtCore/QBuffer \
+	C:/Qt2/6.8.0/mingw_64/include/QtCore/QByteArray \
+	C:/Qt2/6.8.0/mingw_64/include/QtCore/QDebug \
+	C:/Qt2/6.8.0/mingw_64/include/QtCore/QIODevice \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/QObject \
+	C:/Qt2/6.8.0/mingw_64/include/QtCore/QTimer \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/q20functional.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/q20iterator.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/q20memory.h \
@@ -38,7 +43,9 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qatomic.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qatomic_cxx11.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qbasicatomic.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtCore/qbasictimer.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qbindingstorage.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtCore/qbuffer.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qbytearray.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qbytearrayalgorithms.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qbytearraylist.h \
@@ -69,6 +76,7 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qglobalstatic.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qhash.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qhashfunctions.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtCore/qiodevice.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qiodevicebase.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qiterable.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qiterator.h \
@@ -128,6 +136,7 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qtdeprecationmarkers.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qtenvironmentvariables.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qtextstream.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtCore/qtimer.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qtmetamacros.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qtnoop.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qtpreprocessorsupport.h \
@@ -144,6 +153,7 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qversiontagging.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qxptype_traits.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtCore/qyieldcpu.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtGui/QImage \
 	C:/Qt2/6.8.0/mingw_64/include/QtGui/qaction.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtGui/qbitmap.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtGui/qbrush.h \
@@ -169,6 +179,28 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/6.8.0/mingw_64/include/QtGui/qtransform.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtGui/qwindowdefs.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtGui/qwindowdefs_win.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/QAudioFormat \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/QAudioInput \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/QCamera \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/QMediaCaptureSession \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/QMediaDevices \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/QVideoFrame \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/QVideoSink \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qaudio.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qaudioformat.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qaudioinput.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qcamera.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qcameradevice.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qmediacapturesession.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qmediadevices.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qtaudio.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qtmultimedia-config.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaexports.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qtmultimediaglobal.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qtvideo.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qvideoframe.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qvideoframeformat.h \
+	C:/Qt2/6.8.0/mingw_64/include/QtMultimedia/qvideosink.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtWidgets/QWidget \
 	C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qsizepolicy.h \
 	C:/Qt2/6.8.0/mingw_64/include/QtWidgets/qtwidgets-config.h \
@@ -241,6 +273,10 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QGifPluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QGifPluginTargets-relwithdebinfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QGifPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICNSPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICNSPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICNSPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICNSPluginTargets.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICOPluginAdditionalTargetInfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICOPluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QICOPluginTargets-relwithdebinfo.cmake \
@@ -265,10 +301,26 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginTargets-relwithdebinfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QSvgPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTgaPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTgaPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTgaPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTgaPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTiffPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTiffPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTiffPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTiffPluginTargets.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginAdditionalTargetInfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginTargets-relwithdebinfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWbmpPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWbmpPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWbmpPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWbmpPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWebpPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWebpPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWebpPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWebpPluginTargets.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWindowsDirect2DIntegrationPluginAdditionalTargetInfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWindowsDirect2DIntegrationPluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Gui/Qt6QWindowsDirect2DIntegrationPluginTargets-relwithdebinfo.cmake \
@@ -285,6 +337,57 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets-relwithdebinfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsTargets.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6GuiTools/Qt6GuiToolsVersionlessTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfigVersion.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfigVersionImpl.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaDependencies.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaMacros.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaPlugins.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaVersionlessAliasTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QFFmpegMediaPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Multimedia/Qt6QWindowsMediaPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsConfigVersion.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsConfigVersionImpl.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsDependencies.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6MultimediaWidgets/Qt6MultimediaWidgetsVersionlessAliasTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersion.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfigVersionImpl.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkDependencies.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkPlugins.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6NetworkVersionlessAliasTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QNLMNIPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QSchannelBackendPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendCertOnlyPluginTargets.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginAdditionalTargetInfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginConfig.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets-relwithdebinfo.cmake \
+	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Network/Qt6QTlsBackendOpenSSLPluginTargets.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginAdditionalTargetInfo.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginConfig.cmake \
 	C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets-relwithdebinfo.cmake \
@@ -365,6 +468,7 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/char_traits.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/charconv.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/chrono.h \
+	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/codecvt.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/concept_check.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/cpp_type_traits.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/cxxabi_forced.h \
@@ -374,6 +478,7 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/exception.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/exception_defines.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/exception_ptr.h \
+	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/fstream.tcc \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/functexcept.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/functional_hash.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/hash_bytes.h \
@@ -407,8 +512,10 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/shared_ptr_atomic.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/shared_ptr_base.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/specfun.h \
+	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/sstream.tcc \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_abs.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_function.h \
+	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/std_thread.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algo.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_algobase.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stl_bvector.h \
@@ -434,6 +541,7 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/streambuf_iterator.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/string_view.tcc \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/stringfwd.h \
+	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/this_thread_sleep.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/uniform_int_dist.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unique_ptr.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/bits/unordered_map.h \
@@ -467,6 +575,7 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/numeric_traits.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/string_conversions.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ext/type_traits.h \
+	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/fstream \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/functional \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/initializer_list \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ios \
@@ -487,12 +596,14 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_memory_defs.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/pstl/glue_numeric_defs.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/ratio \
+	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/sstream \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stdexcept \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/stdlib.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/streambuf \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/string \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/string_view \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/system_error \
+	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/thread \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/tr1/bessel_function.tcc \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/tr1/beta_function.tcc \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/tr1/ell_integral.tcc \
@@ -513,8 +624,10 @@ NDIQtBackend_autogen/timestamp: \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/variant \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/vector \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/atomic_word.h \
+	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/basic_file.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++allocator.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++config.h \
+	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++io.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/c++locale.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/cpu_defines.h \
 	C:/Qt2/Tools/mingw1310_64/lib/gcc/x86_64-w64-mingw32/13.1.0/include/c++/x86_64-w64-mingw32/bits/ctype_base.h \
