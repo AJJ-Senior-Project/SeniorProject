@@ -1,35 +1,18 @@
 # ninja log v6
-36	233	7507328510321377	StreamNDI_autogen/timestamp	49e00de13e8efd3b
-36	233	7507328510321377	StreamNDI_autogen/mocs_compilation.cpp	49e00de13e8efd3b
-24	261	7507328510206287	NDIQtBackend_autogen/mocs_compilation.cpp	775bbbd06b52d035
-36	233	7507328510321377	C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/StreamNDI_autogen/timestamp	49e00de13e8efd3b
-36	233	7507328510321377	C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/StreamNDI_autogen/mocs_compilation.cpp	49e00de13e8efd3b
-24	261	7507328510206287	NDIQtBackend_autogen/timestamp	775bbbd06b52d035
-24	261	7507328510206287	C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/NDIQtBackend_autogen/timestamp	775bbbd06b52d035
-24	261	7507328510206287	C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/NDIQtBackend_autogen/mocs_compilation.cpp	775bbbd06b52d035
-665	2680	7507327931476888	CMakeFiles/NDIQtBackend.dir/main.cpp.obj	541ae38558d5d083
-271	2247	7507319797131988	CMakeFiles/NDIQtBackend.dir/ndi_sender.cpp.obj	20f53ec764373917
-619	2678	7507327931017136	CMakeFiles/StreamNDI.dir/StreamNDI_autogen/mocs_compilation.cpp.obj	a90484a0af795372
-234	2399	7507328512313933	CMakeFiles/StreamNDI.dir/mainwindow.cpp.obj	e02c749c270cd0d3
-639	2926	7507327931219676	CMakeFiles/StreamNDI.dir/main.cpp.obj	e6163b5b33e944f1
-659	2847	7507327931406827	CMakeFiles/NDIQtBackend.dir/NDIQtBackend_autogen/mocs_compilation.cpp.obj	d525f20a22794452
-261	2388	7507328512579443	CMakeFiles/NDIQtBackend.dir/mainwindow.cpp.obj	f1b9d2ea4eebd7a
-2399	2618	7507328533961612	StreamNDI.exe	a7d4d1ef4e2e78a7
-2388	2618	7507328533851432	NDIQtBackend.exe	c1bc13bc4a6a6326
 42	1316	7513045922505560	StreamNDI_autogen/timestamp	49e00de13e8efd3b
 42	1316	7513045922505560	StreamNDI_autogen/mocs_compilation.cpp	49e00de13e8efd3b
+30	1403	7513045922552000	NDIQtBackend_autogen/mocs_compilation.cpp	775bbbd06b52d035
 42	1316	7513045922505560	C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/StreamNDI_autogen/timestamp	49e00de13e8efd3b
 42	1316	7513045922505560	C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/StreamNDI_autogen/mocs_compilation.cpp	49e00de13e8efd3b
 30	1403	7513045922552000	NDIQtBackend_autogen/timestamp	775bbbd06b52d035
-30	1403	7513045922552000	NDIQtBackend_autogen/mocs_compilation.cpp	775bbbd06b52d035
 30	1403	7513045922552000	C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/NDIQtBackend_autogen/timestamp	775bbbd06b52d035
 30	1403	7513045922552000	C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/NDIQtBackend_autogen/mocs_compilation.cpp	775bbbd06b52d035
+1410	6549	7513045924636219	CMakeFiles/NDIQtBackend.dir/main.cpp.obj	244e139f2a21427a
+1444	6461	7513045924988353	CMakeFiles/NDIQtBackend.dir/ndi_sender.cpp.obj	bba3efc90386fe76
 1324	6039	7513045923809538	CMakeFiles/StreamNDI.dir/StreamNDI_autogen/mocs_compilation.cpp.obj	f4a9a34002d2a0cc
+1390	6802	7513045924434644	CMakeFiles/StreamNDI.dir/mainwindow.cpp.obj	38df9a248b4745a4
 1360	6420	7513045924135879	CMakeFiles/StreamNDI.dir/main.cpp.obj	b7163f49fd892d3b
 1404	6452	7513045924581618	CMakeFiles/NDIQtBackend.dir/NDIQtBackend_autogen/mocs_compilation.cpp.obj	4cf9e2544fbcb1e1
-1444	6461	7513045924988353	CMakeFiles/NDIQtBackend.dir/ndi_sender.cpp.obj	bba3efc90386fe76
-1410	6549	7513045924636219	CMakeFiles/NDIQtBackend.dir/main.cpp.obj	244e139f2a21427a
-1390	6802	7513045924434644	CMakeFiles/StreamNDI.dir/mainwindow.cpp.obj	38df9a248b4745a4
 1438	6845	7513045924927746	CMakeFiles/NDIQtBackend.dir/mainwindow.cpp.obj	5c761efec8720cc2
 6802	7741	7513045978564523	StreamNDI.exe	2746de1232b16f1
 6845	7778	7513045978993188	NDIQtBackend.exe	e940fc34daaf6e92
