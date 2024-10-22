@@ -7,7 +7,7 @@
 				{
 					"build" : ".",
 					"hasInstallRule" : true,
-					"jsonFile" : "directory-.-Debug-cb328f026a7f28201962.json",
+					"jsonFile" : "directory-.-Debug-1f958c1b27f01691a54c.json",
 					"minimumCMakeVersion" : 
 					{
 						"string" : "3.16"
@@ -50,7 +50,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "NDIQtBackend::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-NDIQtBackend-Debug-8a50ee490e2a55c49b4d.json",
+					"jsonFile" : "target-NDIQtBackend-Debug-9e2a29340003110166ae.json",
 					"name" : "NDIQtBackend",
 					"projectIndex" : 0
 				},
@@ -71,7 +71,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "StreamNDI::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-StreamNDI-Debug-83bae96a38587a812238.json",
+					"jsonFile" : "target-StreamNDI-Debug-9cd48c1c48239be6081b.json",
 					"name" : "StreamNDI",
 					"projectIndex" : 0
 				},

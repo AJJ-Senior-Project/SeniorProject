@@ -81,13 +81,13 @@
 			{
 				"command" : 4,
 				"file" : 1,
-				"line" : 61,
+				"line" : 62,
 				"parent" : 0
 			},
 			{
 				"command" : 5,
 				"file" : 1,
-				"line" : 51,
+				"line" : 52,
 				"parent" : 0
 			},
 			{
@@ -481,7 +481,8 @@
 			[
 				0,
 				1,
-				2
+				2,
+				8
 			]
 		}
 	],
@@ -624,7 +625,8 @@
 			[
 				0,
 				1,
-				2
+				2,
+				8
 			]
 		},
 		{
@@ -632,7 +634,7 @@
 			"sourceIndexes" : 
 			[
 				3,
-				5
+				6
 			]
 		},
 		{
@@ -640,14 +642,16 @@
 			"sourceIndexes" : 
 			[
 				4,
-				6
+				5,
+				7
 			]
 		},
 		{
 			"name" : "CMake Rules",
 			"sourceIndexes" : 
 			[
-				7
+				9,
+				10
 			]
 		}
 	],
@@ -683,6 +687,11 @@
 			"sourceGroupIndex" : 2
 		},
 		{
+			"backtrace" : 4,
+			"path" : "resource.qrc",
+			"sourceGroupIndex" : 2
+		},
+		{
 			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/StreamNDI_autogen/include/ui_mainwindow.h",
@@ -696,8 +705,21 @@
 		},
 		{
 			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/StreamNDI_autogen/EWIEGA46WW/qrc_resource.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
 			"isGenerated" : true,
 			"path" : "build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/StreamNDI_autogen/timestamp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/StreamNDI_autogen/EWIEGA46WW/qrc_resource.cpp.rule",
 			"sourceGroupIndex" : 3
 		}
 	],

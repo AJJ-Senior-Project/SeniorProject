@@ -45,6 +45,7 @@ endif()
 qt_add_executable(StreamNDI
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
+    resource.qrc
 )
 
 # Link Qt Multimedia and Widgets components properly for StreamNDI
