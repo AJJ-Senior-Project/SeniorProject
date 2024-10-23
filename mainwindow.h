@@ -26,6 +26,8 @@ private slots:
 
     void on_receiverBackButton_clicked();
 
+    void on_pushButton_4_clicked();
+
 private:
     Ui::mainpage *ui;
 };
