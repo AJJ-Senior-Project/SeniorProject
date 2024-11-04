@@ -1,7 +1,11 @@
 # This file is used to ignore files which are generated
 # ----------------------------------------------------------------------------
+<<<<<<< HEAD
 /build/
 
+=======
+build/
+>>>>>>> 3face3ff3503d114a84f8b54610425fe6697e366
 *~
 *.autosave
 *.a
@@ -73,3 +77,4 @@ CMakeLists.txt.user*
 *.dll
 *.exe
 
+/build
