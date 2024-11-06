@@ -1,6 +1,6 @@
 #include "ndi_receiver.h"
 
-NDIReceiver::NDIReceiver() : ndiFindInstance(nullptr), ndiReceiverInstance(nullptr) {}
+NDIReceiver::NDIReceiver() : ndiFindInstance(nullptr), receiving(false) {}
 
 NDIReceiver::~NDIReceiver()
 {
@@ -39,6 +39,7 @@ void NDIReceiver::discoverSources()
     uint32_t numSources = 0;
     const NDIlib_source_t* sources = NDIlib_find_get_current_sources(ndiFindInstance, &numSources);
 
+    std::lock_guard<std::mutex> lock(sourcesMutex); // Lock mutex to safely update availableSources
     availableSources.clear();
     for (uint32_t i = 0; i < numSources; ++i) {
         availableSources.push_back(sources[i]);
@@ -56,72 +57,80 @@ void NDIReceiver::printAvailableSources()
     }
 }
 
-// Select a specific NDI source by name
-bool NDIReceiver::selectSource(const std::string& sourceName)
+// Start receiving video and metadata for all discovered sources
+void NDIReceiver::startReceiving()
 {
+    std::lock_guard<std::mutex> lock(sourcesMutex); // Lock mutex to safely access availableSources
+    receiving = true;
+
     for (const auto& source : availableSources) {
-        if (sourceName == source.p_ndi_name) {
-            // Create a receiver instance for the selected source
-            ndiReceiverInstance = NDIlib_recv_create_v3();
-            if (!ndiReceiverInstance) {
-                std::cerr << "Failed to create NDI receiver instance." << std::endl;
-                return false;
-            }
-
-            // Connect the receiver to the selected source
-            NDIlib_recv_connect(ndiReceiverInstance, &source);
-            std::cout << "Connected to source: " << sourceName << std::endl;
-            return true;
+        // Create a receiver instance for each source and store it
+        NDIlib_recv_instance_t instance = NDIlib_recv_create_v3();
+        if (!instance) {
+            std::cerr << "Failed to create NDI receiver instance for " << source.p_ndi_name << std::endl;
+            continue;
         }
-    }
+        NDIlib_recv_connect(instance, &source);
+        ndiReceiverInstances[source.p_ndi_name] = instance;
 
-    std::cerr << "Source not found: " << sourceName << std::endl;
-    return false;
+        // Create a new thread for each source to receive video and metadata
+        receiverThreads[source.p_ndi_name] = std::thread(&NDIReceiver::receiveVideoAndMetadata, this, source);
+    }
 }
 
-// Receive video and metadata from the selected source
-void NDIReceiver::receiveVideoAndMetadata()
+// Receive video and metadata for a specific source (used in a separate thread for each source)
+void NDIReceiver::receiveVideoAndMetadata(const NDIlib_source_t& source)
 {
-    if (!ndiReceiverInstance) {
-        std::cerr << "NDI Receiver instance not initialized." << std::endl;
+    auto instance = ndiReceiverInstances[source.p_ndi_name];
+    if (!instance) {
+        std::cerr << "NDI Receiver instance not initialized for " << source.p_ndi_name << std::endl;
         return;
     }
 
-    while (true) {
-        // Receive video frame
+    while (receiving) {
         NDIlib_video_frame_v2_t videoFrame;
         NDIlib_metadata_frame_t metadataFrame;
 
-        switch (NDIlib_recv_capture_v2(ndiReceiverInstance, &videoFrame, nullptr, &metadataFrame, 5000)) {
+        switch (NDIlib_recv_capture_v2(instance, &videoFrame, nullptr, &metadataFrame, 5000)) {
         case NDIlib_frame_type_video:
-            std::cout << "Received video frame from source." << std::endl;
-            // Process video frame (this is where you would package or display it)
-            NDIlib_recv_free_video_v2(ndiReceiverInstance, &videoFrame);
+            std::cout << "Received video frame from source: " << source.p_ndi_name << std::endl;
+            NDIlib_recv_free_video_v2(instance, &videoFrame);
             break;
 
         case NDIlib_frame_type_metadata:
-            std::cout << "Received metadata: " << metadataFrame.p_data << std::endl;
-            NDIlib_recv_free_metadata(ndiReceiverInstance, &metadataFrame);
+            std::cout << "Received metadata from " << source.p_ndi_name << ": " << metadataFrame.p_data << std::endl;
+            NDIlib_recv_free_metadata(instance, &metadataFrame);
             break;
 
         case NDIlib_frame_type_none:
-            std::cerr << "No data received." << std::endl;
+            std::cerr << "No data received from source: " << source.p_ndi_name << std::endl;
             break;
 
         default:
-            std::cerr << "Error receiving data." << std::endl;
+            std::cerr << "Error receiving data from source: " << source.p_ndi_name << std::endl;
             break;
         }
     }
 }
 
-// Terminate the NDI receiver and free resources
+// Terminate the NDI receiver, stop all threads, and free resources
 void NDIReceiver::terminateReceiver()
 {
-    if (ndiReceiverInstance) {
-        NDIlib_recv_destroy(ndiReceiverInstance);
-        ndiReceiverInstance = nullptr;
+    receiving = false; // Signal threads to stop
+
+    // Join each thread and clean up instances
+    for (auto& threadPair : receiverThreads) {
+        if (threadPair.second.joinable()) {
+            threadPair.second.join();
+        }
     }
+    receiverThreads.clear();
+
+    // Destroy each NDI receiver instance
+    for (auto& instancePair : ndiReceiverInstances) {
+        NDIlib_recv_destroy(instancePair.second);
+    }
+    ndiReceiverInstances.clear();
 
     if (ndiFindInstance) {
         NDIlib_find_destroy(ndiFindInstance);

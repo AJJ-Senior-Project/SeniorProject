@@ -28,6 +28,7 @@ qt_add_executable(StreamNDI
     ${PROJECT_SOURCES}
     resource.qrc
     ndi_receiver.h ndi_receiver.cpp
+
 )
 
 # Link Qt libraries to StreamNDI

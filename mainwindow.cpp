@@ -6,12 +6,19 @@
 mainpage::mainpage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::mainpage)
+    , ndiReceiver(new NDIReceiver())  // Create a member instance of NDIReceiver
 {
     ui->setupUi(this);
 }
 
 mainpage::~mainpage()
 {
+    // Clean up the NDI receiver when mainpage is destroyed
+    if (ndiReceiver) {
+        ndiReceiver->terminateReceiver();  // Ensure threads and resources are cleaned up
+        delete ndiReceiver;
+        ndiReceiver = nullptr;
+    }
     delete ui;
 }
 
@@ -20,43 +27,29 @@ void mainpage::on_selectSendButton_clicked()
     ui->stackedWidget->setCurrentIndex(1);
 }
 
-
 void mainpage::on_selectReceiveButton_clicked()
 {
     // Switch to the new page in the stacked widget
     ui->stackedWidget->setCurrentIndex(2);
-    qDebug("yes we swapped up");
-    // Create an NDIReceiver instance locally
-    NDIReceiver ndiReceiver;
+    qDebug("Switched to Receive Page");
 
-    // Initialize the NDI receiver
-    if (!ndiReceiver.initializeReceiver()) {
+    // Initialize the NDI receiver if not already initialized
+    if (!ndiReceiver->initializeReceiver()) {
         qDebug("Failed to initialize NDI Receiver.");
         return;
     }
 
     // Discover available NDI sources
-    ndiReceiver.discoverSources();
+    ndiReceiver->discoverSources();
 
-    // Select a specific source (update this with the actual name of your NDI sender)
-    std::string selectedSourceName = "NDI Sender"; // Replace with the correct name
-    if (ndiReceiver.selectSource(selectedSourceName)) {
-        qDebug("Successfully selected the NDI source: %s", selectedSourceName.c_str());
+     ndiReceiver->startReceiving();
 
-        // Receive video and metadata (non-blocking call if it's okay to do it here)
-        ndiReceiver.receiveVideoAndMetadata(); // This will block, so consider threading if needed
-    } else {
-        qDebug("Failed to select NDI source.");
-    }
 }
-
-
 
 void mainpage::on_senderBackButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 }
-
 
 void mainpage::on_receiverBackButton_clicked()
 {
