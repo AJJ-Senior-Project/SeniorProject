@@ -28,6 +28,8 @@ qt_add_executable(StreamNDI
     ${PROJECT_SOURCES}
     resource.qrc
     ndi_receiver.h ndi_receiver.cpp
+    discoveryworker.h discoveryworker.cpp
+    receiverworker.h receiverworker.cpp
 
 )
 

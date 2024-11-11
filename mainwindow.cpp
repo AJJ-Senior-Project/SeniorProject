@@ -1,21 +1,34 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
+#include "ui_mainwindow.h"
 #include "ndi_sender.h"
-#include "ndi_receiver.h"
+
+#include <iostream>       // Include for std::cerr, std::endl
+#include <QDebug>
 
 mainpage::mainpage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::mainpage)
-    , ndiReceiver(new NDIReceiver())  // Create a member instance of NDIReceiver
+    , ndiReceiver(new NDIReceiver())
+    , scene(new QGraphicsScene(this))
 {
     ui->setupUi(this);
+
+    // Set up the QGraphicsView
+    ui->graphicsView->setScene(scene);
+
+    // Connect signals from NDIReceiver to the UI slots
+    connect(ndiReceiver, &NDIReceiver::sourcesDiscovered, this, &mainpage::updateAvailableSources);
+    connect(ndiReceiver, &NDIReceiver::frameReceived, this, &mainpage::displayVideoFrame);
+
+    // Connect the sourceComboBox signal
+
 }
+
 
 mainpage::~mainpage()
 {
-    // Clean up the NDI receiver when mainpage is destroyed
     if (ndiReceiver) {
-        ndiReceiver->terminateReceiver();  // Ensure threads and resources are cleaned up
+        ndiReceiver->terminateReceiver();
         delete ndiReceiver;
         ndiReceiver = nullptr;
     }
@@ -29,21 +42,16 @@ void mainpage::on_selectSendButton_clicked()
 
 void mainpage::on_selectReceiveButton_clicked()
 {
-    // Switch to the new page in the stacked widget
     ui->stackedWidget->setCurrentIndex(2);
-    qDebug("Switched to Receive Page");
 
-    // Initialize the NDI receiver if not already initialized
+    // Initialize the NDI receiver
     if (!ndiReceiver->initializeReceiver()) {
-        qDebug("Failed to initialize NDI Receiver.");
+        qDebug() << "Failed to initialize NDI Receiver.";
         return;
     }
 
-    // Discover available NDI sources
-    ndiReceiver->discoverSources();
-
-     ndiReceiver->startReceiving();
-
+    // Start discovering sources in a separate thread
+    ndiReceiver->startDiscovery();
 }
 
 void mainpage::on_senderBackButton_clicked()
@@ -56,17 +64,61 @@ void mainpage::on_receiverBackButton_clicked()
     ui->stackedWidget->setCurrentIndex(0);
 }
 
-// Handle the "Send" button click
 void mainpage::on_pushButton_4_clicked()
 {
-    static NDISender sender;  // Ensure only one instance is created and reused
+    static NDISender sender;
     if (!sender.initializeNDI()) {
         std::cerr << "Failed to initialize NDI sender." << std::endl;
         return;
     }
 
-    // Example of sending a message
     sender.sendMessage("Test message", 1, "GameName");
-
-    // You can trigger other sender functionalities here, e.g., send video/audio.
 }
+
+void mainpage::on_sourceComboBox_currentTextChanged(const QString &text)
+{
+    if (text.isEmpty()) {
+        return;
+    }
+
+    qDebug() << "Starting to receive from source:" << text;
+
+    // Stop any current receiving
+    ndiReceiver->stopReceiving();
+
+    // Start receiving from the selected source
+    ndiReceiver->selectSource(text);
+    ndiReceiver->startReceiving();
+}
+
+
+void mainpage::updateAvailableSources(const QStringList &sources)
+{
+    ui->sourceComboBox->clear();
+    ui->sourceComboBox->addItems(sources);
+}
+
+void mainpage::displayVideoFrame(const QImage &frame)
+{
+    if (frame.isNull()) {
+        qDebug() << "Received null image.";
+        return;
+    }
+
+    if (!scene) {
+        qDebug() << "Scene is null.";
+        return;
+    }
+
+    scene->clear();
+    scene->addPixmap(QPixmap::fromImage(frame));
+
+    if (ui && ui->graphicsView) {
+        ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+    } else {
+        qDebug() << "graphicsView is null.";
+    }
+}
+
+
+

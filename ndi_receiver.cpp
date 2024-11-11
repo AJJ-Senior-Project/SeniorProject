@@ -1,13 +1,21 @@
 #include "ndi_receiver.h"
+#include "discoveryworker.h"
+#include "receiverworker.h"
+#include <iostream>
+#include <qdebug.h>
 
-NDIReceiver::NDIReceiver() : ndiFindInstance(nullptr), receiving(false) {}
+NDIReceiver::NDIReceiver(QObject *parent)
+    : QObject(parent), ndiFindInstance(nullptr), ndiReceiverInstance(nullptr),
+    discoveryThread(nullptr), receiverThread(nullptr),
+    discoveryWorker(nullptr), receiverWorker(nullptr)
+{
+}
 
 NDIReceiver::~NDIReceiver()
 {
     terminateReceiver();
 }
 
-// Initialize the NDI receiver
 bool NDIReceiver::initializeReceiver()
 {
     if (!NDIlib_initialize()) {
@@ -15,122 +23,137 @@ bool NDIReceiver::initializeReceiver()
         return false;
     }
 
-    // Create a finder instance to search for sources
     ndiFindInstance = NDIlib_find_create_v2();
     if (!ndiFindInstance) {
         std::cerr << "Failed to create NDI finder." << std::endl;
         return false;
     }
 
-    std::cout << "NDI Receiver initialized successfully." << std::endl;
+    qDebug() << "NDI Receiver initialized successfully.";
     return true;
 }
 
-// Discover available NDI sources
-void NDIReceiver::discoverSources()
+
+void NDIReceiver::startDiscovery()
 {
-    if (!ndiFindInstance) {
-        std::cerr << "NDI finder not initialized." << std::endl;
+    if (discoveryThread) {
         return;
     }
 
-    // Wait for up to 5 seconds to discover sources
-    NDIlib_find_wait_for_sources(ndiFindInstance, 5000);
+    discoveryThread = new QThread(this);
+    discoveryWorker = new DiscoveryWorker(ndiFindInstance);
+
+    discoveryWorker->moveToThread(discoveryThread);
+
+    connect(discoveryThread, &QThread::started, discoveryWorker, &DiscoveryWorker::process);
+    connect(discoveryWorker, &DiscoveryWorker::sourcesDiscovered, this, &NDIReceiver::sourcesDiscovered);
+    connect(discoveryWorker, &DiscoveryWorker::sourcesDiscovered, discoveryThread, &QThread::quit);
+    connect(discoveryThread, &QThread::finished, discoveryWorker, &QObject::deleteLater);
+    connect(discoveryThread, &QThread::finished, discoveryThread, &QObject::deleteLater);
+    connect(discoveryThread, &QThread::finished, [this]() {
+        discoveryThread = nullptr;
+        discoveryWorker = nullptr;
+    });
+
+    discoveryThread->start();
+}
+
+void NDIReceiver::selectSource(const QString &sourceName)
+{
+    std::lock_guard<std::mutex> lock(sourcesMutex);
+
+    // Retrieve the current list of sources
     uint32_t numSources = 0;
     const NDIlib_source_t* sources = NDIlib_find_get_current_sources(ndiFindInstance, &numSources);
 
-    std::lock_guard<std::mutex> lock(sourcesMutex); // Lock mutex to safely update availableSources
-    availableSources.clear();
+    qDebug() << "Number of sources available:" << numSources;
+
     for (uint32_t i = 0; i < numSources; ++i) {
-        availableSources.push_back(sources[i]);
+        qDebug() << "Available source:" << QString::fromUtf8(sources[i].p_ndi_name);
+        if (QString::fromUtf8(sources[i].p_ndi_name) == sourceName) {
+            if (ndiReceiverInstance) {
+                NDIlib_recv_destroy(ndiReceiverInstance);
+                ndiReceiverInstance = nullptr;
+            }
+
+            // Create the receiver instance with desired settings
+            NDIlib_recv_create_v3_t recv_create_desc = {0};
+            recv_create_desc.source_to_connect_to = sources[i];
+            recv_create_desc.color_format = NDIlib_recv_color_format_BGRX_BGRA;
+            recv_create_desc.bandwidth = NDIlib_recv_bandwidth_highest;
+            recv_create_desc.allow_video_fields = false;
+
+            ndiReceiverInstance = NDIlib_recv_create_v3(&recv_create_desc);
+
+            if (!ndiReceiverInstance) {
+                qDebug() << "Failed to create NDI receiver instance.";
+                return;
+            }
+
+            qDebug() << "NDI Receiver Instance created successfully.";
+
+            break;
+        }
     }
 
-    printAvailableSources();
-}
-
-// Print available NDI sources to the console
-void NDIReceiver::printAvailableSources()
-{
-    std::cout << "Available NDI sources:" << std::endl;
-    for (const auto& source : availableSources) {
-        std::cout << "  - " << source.p_ndi_name << std::endl;
+    if (!ndiReceiverInstance) {
+        qDebug() << "No matching source found for" << sourceName;
     }
 }
 
-// Start receiving video and metadata for all discovered sources
+
 void NDIReceiver::startReceiving()
 {
-    std::lock_guard<std::mutex> lock(sourcesMutex); // Lock mutex to safely access availableSources
-    receiving = true;
-
-    for (const auto& source : availableSources) {
-        // Create a receiver instance for each source and store it
-        NDIlib_recv_instance_t instance = NDIlib_recv_create_v3();
-        if (!instance) {
-            std::cerr << "Failed to create NDI receiver instance for " << source.p_ndi_name << std::endl;
-            continue;
-        }
-        NDIlib_recv_connect(instance, &source);
-        ndiReceiverInstances[source.p_ndi_name] = instance;
-
-        // Create a new thread for each source to receive video and metadata
-        receiverThreads[source.p_ndi_name] = std::thread(&NDIReceiver::receiveVideoAndMetadata, this, source);
-    }
-}
-
-// Receive video and metadata for a specific source (used in a separate thread for each source)
-void NDIReceiver::receiveVideoAndMetadata(const NDIlib_source_t& source)
-{
-    auto instance = ndiReceiverInstances[source.p_ndi_name];
-    if (!instance) {
-        std::cerr << "NDI Receiver instance not initialized for " << source.p_ndi_name << std::endl;
+    if (receiverThread || !ndiReceiverInstance) {
+        qDebug() << "Receiver thread already running or ndiReceiverInstance is null.";
+        if (receiverThread) qDebug() << "Receiver thread is already running.";
+        if (!ndiReceiverInstance) qDebug() << "ndiReceiverInstance is null.";
         return;
     }
 
-    while (receiving) {
-        NDIlib_video_frame_v2_t videoFrame;
-        NDIlib_metadata_frame_t metadataFrame;
+    receiverThread = new QThread(this);
+    receiverWorker = new ReceiverWorker(ndiReceiverInstance);
 
-        switch (NDIlib_recv_capture_v2(instance, &videoFrame, nullptr, &metadataFrame, 5000)) {
-        case NDIlib_frame_type_video:
-            std::cout << "Received video frame from source: " << source.p_ndi_name << std::endl;
-            NDIlib_recv_free_video_v2(instance, &videoFrame);
-            break;
+    receiverWorker->moveToThread(receiverThread);
 
-        case NDIlib_frame_type_metadata:
-            std::cout << "Received metadata from " << source.p_ndi_name << ": " << metadataFrame.p_data << std::endl;
-            NDIlib_recv_free_metadata(instance, &metadataFrame);
-            break;
+    connect(receiverThread, &QThread::started, receiverWorker, &ReceiverWorker::process);
+    connect(receiverWorker, &ReceiverWorker::frameReceived, this, &NDIReceiver::frameReceived);
+    connect(this, &NDIReceiver::stopReceivingSignal, receiverWorker, &ReceiverWorker::stop);
+    connect(receiverThread, &QThread::finished, receiverWorker, &QObject::deleteLater);
+    connect(receiverThread, &QThread::finished, receiverThread, &QObject::deleteLater);
+    connect(receiverThread, &QThread::finished, [this]() {
+        receiverThread = nullptr;
+        receiverWorker = nullptr;
+    });
 
-        case NDIlib_frame_type_none:
-            std::cerr << "No data received from source: " << source.p_ndi_name << std::endl;
-            break;
+    receiverThread->start();
 
-        default:
-            std::cerr << "Error receiving data from source: " << source.p_ndi_name << std::endl;
-            break;
-        }
+    qDebug() << "Receiver thread started.";
+}
+
+
+void NDIReceiver::stopReceiving()
+{
+    if (receiverThread) {
+        emit stopReceivingSignal();
+        receiverThread->quit();
+        // Do not wait here
+    }
+
+    if (ndiReceiverInstance) {
+        NDIlib_recv_destroy(ndiReceiverInstance);
+        ndiReceiverInstance = nullptr;
     }
 }
 
-// Terminate the NDI receiver, stop all threads, and free resources
 void NDIReceiver::terminateReceiver()
 {
-    receiving = false; // Signal threads to stop
+    stopReceiving();
 
-    // Join each thread and clean up instances
-    for (auto& threadPair : receiverThreads) {
-        if (threadPair.second.joinable()) {
-            threadPair.second.join();
-        }
+    if (ndiReceiverInstance) {
+        NDIlib_recv_destroy(ndiReceiverInstance);
+        ndiReceiverInstance = nullptr;
     }
-    receiverThreads.clear();
-
-    // Destroy each NDI receiver instance
-    for (auto& instancePair : ndiReceiverInstances) {
-        NDIlib_recv_destroy(instancePair.second);
-    }
-    ndiReceiverInstances.clear();
 
     if (ndiFindInstance) {
         NDIlib_find_destroy(ndiFindInstance);
@@ -138,5 +161,4 @@ void NDIReceiver::terminateReceiver()
     }
 
     NDIlib_destroy();
-    std::cout << "NDI Receiver terminated successfully." << std::endl;
 }
