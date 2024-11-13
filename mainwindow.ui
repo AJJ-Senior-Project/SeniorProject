@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QWidget" name="horizontalLayoutWidget">
@@ -219,7 +219,7 @@
        <x>389</x>
        <y>309</y>
        <width>221</width>
-       <height>160</height>
+       <height>179</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">

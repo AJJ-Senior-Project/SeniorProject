@@ -27,6 +27,7 @@ qt_add_executable(StreamNDI
     MANUAL_FINALIZATION
     ${PROJECT_SOURCES}
     resource.qrc
+    ndi_sender.h ndi_sender.cpp
     ndi_receiver.h ndi_receiver.cpp
     discoveryworker.h discoveryworker.cpp
     receiverworker.h receiverworker.cpp

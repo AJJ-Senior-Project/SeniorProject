@@ -9,9 +9,62 @@
 	[
 		"C:/College/Fall 5/CIS4914/SeniorProject/CMakeLists.txt",
 		"C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/.qtc/package-manager/auto-setup.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeDetermineSystem.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeSystem.cmake.in",
 		"C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeSystem.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeNinjaFindMake.cmake",
 		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeSystemSpecificInitialize.cmake",
 		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Platform/Windows-Initialize.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeDetermineCXXCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeDetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Platform/Windows-Determine-CXX.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeDetermineCompilerId.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeCompilerIdDetection.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/ADSP-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/ARMCC-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/ARMClang-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/AppleClang-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/Clang-DetermineCompilerInternal.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/Borland-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/Clang-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/Clang-DetermineCompilerInternal.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/Compaq-CXX-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/Cray-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/CrayClang-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/Embarcadero-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/Fujitsu-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/FujitsuClang-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/GHS-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/GNU-CXX-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/HP-CXX-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/IAR-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/IBMClang-CXX-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/Intel-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/IntelLLVM-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/LCC-CXX-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/MSVC-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/NVHPC-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/NVIDIA-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/OpenWatcom-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/OrangeC-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/PGI-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/PathScale-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/SCO-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/SunPro-CXX-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/TI-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/TIClang-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/Tasking-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/VisualAge-CXX-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/Watcom-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/XL-CXX-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/XLClang-CXX-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/zOS-CXX-DetermineCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/IBMCPP-CXX-DetermineVersionInternal.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeFindBinUtils.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/GNU-FindBinUtils.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeCXXCompiler.cmake.in",
 		"C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeCXXCompiler.cmake",
 		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeSystemSpecificInformation.cmake",
 		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeGenericSystem.cmake",
@@ -25,11 +78,27 @@
 		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Compiler/CMakeCommonCompilerMacros.cmake",
 		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Platform/Windows-GNU-CXX.cmake",
 		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Platform/Windows-GNU.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeDetermineRCCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeRCCompiler.cmake.in",
 		"C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeRCCompiler.cmake",
 		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeRCInformation.cmake",
 		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Platform/Windows-windres.cmake",
-		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Platform/Windows-GNU-CXX-ABI.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeTestRCCompiler.cmake",
 		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeCommonLanguageInclude.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeTestCXXCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeTestCompilerCommon.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeDetermineCompilerABI.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Internal/CMakeDetermineLinkerId.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeParseImplicitIncludeInfo.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeParseImplicitLinkInfo.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeParseLibraryArchitecture.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeTestCompilerCommon.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeCXXCompilerABI.cpp",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeDetermineCompileFeatures.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Internal/FeatureTesting.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/CMakeCXXCompiler.cmake.in",
+		"C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/3.29.3/CMakeCXXCompiler.cmake",
+		"C:/Qt2/Tools/CMake_64/share/cmake-3.29/Modules/Platform/Windows-GNU-CXX-ABI.cmake",
 		"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6/Qt6ConfigVersion.cmake",
 		"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6/Qt6ConfigVersionImpl.cmake",
 		"C:/Qt2/6.8.0/mingw_64/lib/cmake/Qt6/Qt6Config.cmake",
@@ -323,9 +392,33 @@
 	"HEADERS" : 
 	[
 		[
+			"C:/College/Fall 5/CIS4914/SeniorProject/discoveryworker.h",
+			"MU",
+			"EWIEGA46WW/moc_discoveryworker.cpp",
+			null
+		],
+		[
 			"C:/College/Fall 5/CIS4914/SeniorProject/mainwindow.h",
 			"MU",
 			"EWIEGA46WW/moc_mainwindow.cpp",
+			null
+		],
+		[
+			"C:/College/Fall 5/CIS4914/SeniorProject/ndi_receiver.h",
+			"MU",
+			"EWIEGA46WW/moc_ndi_receiver.cpp",
+			null
+		],
+		[
+			"C:/College/Fall 5/CIS4914/SeniorProject/ndi_sender.h",
+			"MU",
+			"EWIEGA46WW/moc_ndi_sender.cpp",
+			null
+		],
+		[
+			"C:/College/Fall 5/CIS4914/SeniorProject/receiverworker.h",
+			"MU",
+			"EWIEGA46WW/moc_receiverworker.cpp",
 			null
 		]
 	],
@@ -362,8 +455,8 @@
 		"C:/Qt2/6.8.0/mingw_64/include/QtCore",
 		"C:/Qt2/6.8.0/mingw_64/include",
 		"C:/Qt2/6.8.0/mingw_64/mkspecs/win32-g++",
-		"C:/Qt2/6.8.0/mingw_64/include/QtWidgets",
 		"C:/Qt2/6.8.0/mingw_64/include/QtGui",
+		"C:/Qt2/6.8.0/mingw_64/include/QtWidgets",
 		"C:/Qt2/6.8.0/mingw_64/include/QtMultimedia",
 		"C:/Qt2/6.8.0/mingw_64/include/QtNetwork",
 		"C:/Qt2/6.8.0/mingw_64/include/QtMultimediaWidgets",
@@ -396,11 +489,7 @@
 	],
 	"MOC_PREDEFS_FILE" : "C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/StreamNDI_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
-	"MOC_SKIP" : 
-	[
-		"C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/NDIQtBackend_autogen/include/ui_mainwindow.h",
-		"C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/NDIQtBackend_autogen/mocs_compilation.cpp"
-	],
+	"MOC_SKIP" : [],
 	"MULTI_CONFIG" : false,
 	"PARALLEL" : 8,
 	"PARSE_CACHE_FILE" : "C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/StreamNDI_autogen.dir/ParseCache.txt",
@@ -411,16 +500,28 @@
 	"SETTINGS_FILE" : "C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/CMakeFiles/StreamNDI_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
+		[
+			"C:/College/Fall 5/CIS4914/SeniorProject/discoveryworker.cpp",
+			"MU",
+			null
+		],
 		[ "C:/College/Fall 5/CIS4914/SeniorProject/main.cpp", "MU", null ],
-		[ "C:/College/Fall 5/CIS4914/SeniorProject/mainwindow.cpp", "MU", null ]
+		[ "C:/College/Fall 5/CIS4914/SeniorProject/mainwindow.cpp", "MU", null ],
+		[
+			"C:/College/Fall 5/CIS4914/SeniorProject/ndi_receiver.cpp",
+			"MU",
+			null
+		],
+		[ "C:/College/Fall 5/CIS4914/SeniorProject/ndi_sender.cpp", "MU", null ],
+		[
+			"C:/College/Fall 5/CIS4914/SeniorProject/receiverworker.cpp",
+			"MU",
+			null
+		]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],
-	"UIC_SKIP" : 
-	[
-		"C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/NDIQtBackend_autogen/include/ui_mainwindow.h",
-		"C:/College/Fall 5/CIS4914/SeniorProject/build/Desktop_Qt_6_8_0_MinGW_64_bit-Debug/NDIQtBackend_autogen/mocs_compilation.cpp"
-	],
+	"UIC_SKIP" : [],
 	"UIC_UI_FILES" : [],
 	"USE_BETTER_GRAPH" : true,
 	"VERBOSITY" : 0
