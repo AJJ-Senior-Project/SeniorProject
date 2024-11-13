@@ -35,7 +35,7 @@ qt_add_executable(StreamNDI
 )
 
 # Link Qt libraries to StreamNDI
-target_link_libraries(StreamNDI PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Multimedia Qt6::MultimediaWidgets)
+target_link_libraries(StreamNDI PRIVATE ${NDI_LIB} Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Multimedia Qt6::MultimediaWidgets)
 
 # Change this to your NDI SDK path
 set(NDI_SDK_PATH "C:/Program Files/NDI/NDI 6 SDK")
@@ -43,7 +43,7 @@ include_directories(${NDI_SDK_PATH}/Include)  # Ensure this is the correct inclu
 
 # Add the NDI library
 set(NDI_LIB_NAME "Processing.NDI.Lib.x64")
-find_library(NDI_LIB NAMES ${NDI_LIB_NAME} PATHS ${NDI_SDK_PATH}/Lib/x64)
+find_library(NDI_LIB NAMES ${NDI_LIB_NAME} Processing.NDI.Lib PATHS ${NDI_SDK_PATH}/Lib/x64)
 
 # Ensure the NDI library is found, otherwise error out
 if(NDI_LIB)

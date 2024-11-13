@@ -47,19 +47,30 @@ QStringList getRunningApplications() {
     return appList;
 }
 
-NDISender::NDISender()
-{
-    if (!NDIlib_initialize())
-    {
-        qDebug() << "Failure";
+NDISender::NDISender() {
+    if (!NDIlib_initialize()) {
+        qDebug() << "Failed to initialize NDI library.";
+        return;
+    }
+
+    NDIlib_send_create_t NDI_send_create_desc = {0};
+    NDI_send_create_desc.p_ndi_name = "NDI Test Sender";
+    ndiSend_ = NDIlib_send_create(&NDI_send_create_desc);
+
+    if (!ndiSend_) {
+        qDebug() << "Failed to create NDI sender instance.";
+        NDIlib_destroy();
+    } else {
+        qDebug() << "NDI sender instance created successfully and is non-null.";
     }
 }
+
 NDISender::~NDISender()
 {
-    if (ndi_send_instance)
+    if (ndiSend_)
     {
-        NDIlib_send_destroy(ndi_send_instance);
-        ndi_send_instance = nullptr; // Ensure no dangling pointer
+        NDIlib_send_destroy(ndiSend_);
+        ndiSend_ = nullptr; // Ensure no dangling pointer
     }
     NDIlib_destroy();
 }
@@ -67,39 +78,27 @@ NDISender::~NDISender()
 // Startup Occurs With this
 void NDISender::initializeSender()
 {
-    NDIlib_send_create_t NDI_send_create_desc;
-    NDI_send_create_desc.p_ndi_name = "NDI Sender";
-    ndi_send_instance = NDIlib_send_create(&NDI_send_create_desc);
-    if (!ndi_send_instance)
-    {
-        qDebug() << "Failed at Initialize";
-    }
+    // NDIlib_send_create_t NDI_send_create_desc = {0};
+    // NDI_send_create_desc.p_ndi_name = "NDI Sender";
+    // ndiSend_ = NDIlib_send_create(&NDI_send_create_desc);
+
+    // if (ndiSend_ == nullptr) {
+    //     qDebug() << "NDI sender instance is nullptr. Initialization failed.";
+    // } else {
+    //     qDebug() << "NDI sender instance created successfully and is non-null.";
+    // }
 }
 
 // Initialize NDI resources
-bool NDISender::initializeNDI() {
-    // Initialize NDI library
+bool NDISender::initializeNDI() { //creates NDI object
+    // Initialize the NDI library
     if (!NDIlib_initialize()) {
         std::cerr << "Failed to initialize NDI library." << std::endl;
         return false;
-    }
-
-    // Create an NDI sender instance
-    NDIlib_send_create_t NDI_send_create_desc;
-    NDI_send_create_desc.p_ndi_name = "NDI Sender";
-
-    // Attempt to create the NDI sender
-    ndiSend_ = NDIlib_send_create(&NDI_send_create_desc);
-
-    // Check if the sender instance was created successfully
-    if (!ndiSend_) {
-        std::cerr << "Failed to create NDI sender instance." << std::endl;
-        NDIlib_destroy();  // Clean up the library if creation fails
-        return false;
-    }
-
-    std::cout << "NDI Sender initialized successfully." << std::endl;
+    } else {
+    std::cout << "NDI library initialized successfully." << std::endl;
     return true;
+    }
 }
 
 // Terminate NDI resources
