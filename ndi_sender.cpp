@@ -7,45 +7,7 @@
 #include <windows.h>
 #include <psapi.h>
 #include <QStringList>
-
-QStringList getRunningApplications() {
-    QStringList appList;
-
-    // Buffer to hold the process IDs
-    DWORD processes[1024], processCount, cbNeeded;
-
-    // Get a list of process identifiers
-    if (!EnumProcesses(processes, sizeof(processes), &cbNeeded)) {
-        return appList;
-    }
-
-    // Calculate the number of processes obtained
-    processCount = cbNeeded / sizeof(DWORD);
-
-    // Loop over each process ID to get the process name
-    for (unsigned int i = 0; i < processCount; ++i) {
-        if (processes[i] != 0) {
-            // Open the process to get its name
-            HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processes[i]);
-
-            if (hProcess != NULL) {
-                HMODULE hMod;
-                DWORD cbNeeded;
-
-                // Get the process name
-                if (EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded)) {
-                    TCHAR processName[MAX_PATH];
-                    if (GetModuleBaseName(hProcess, hMod, processName, sizeof(processName) / sizeof(TCHAR))) {
-                        appList << QString::fromWCharArray(processName);
-                    }
-                }
-                CloseHandle(hProcess);
-            }
-        }
-    }
-
-    return appList;
-}
+#include <wingdi.h>
 
 NDISender::NDISender() {
     if (!NDIlib_initialize()) {
@@ -145,56 +107,74 @@ bool NDISender::sendMessage(const std::string& message, int priority, const std:
     return true;
 }
 
-// Send video from a file source
+
 bool NDISender::sendVideoSource(const std::string& sourcePath) {
     if (!ndiSend_) {
         std::cerr << "NDI Sender not initialized." << std::endl;
         return false;
     }
 
-    currentVideoSource_ = sourcePath;
+    // Get the device context of the screen
+    HDC hScreenDC = GetDC(NULL);
+    HDC hMemoryDC = CreateCompatibleDC(hScreenDC);
 
-    const int width = 1920;
-    const int height = 1080;
+    // Get the screen dimensions
+    int screenWidth = GetDeviceCaps(hScreenDC, HORZRES);
+    int screenHeight = GetDeviceCaps(hScreenDC, VERTRES);
 
-    for (int i = 0; i < 100; ++i) {
-        // Create an NDI video frame
+    // Create a compatible bitmap from the Window DC
+    HBITMAP hBitmap = CreateCompatibleBitmap(hScreenDC, screenWidth, screenHeight);
+    SelectObject(hMemoryDC, hBitmap);
+
+    while (true) {
+        // Copy the screen into the bitmap
+        BitBlt(hMemoryDC, 0, 0, screenWidth, screenHeight, hScreenDC, 0, 0, SRCCOPY);
+
+        // Create a BITMAPINFOHEADER to access bitmap data
+        BITMAPINFOHEADER bi;
+        bi.biSize = sizeof(BITMAPINFOHEADER);
+        bi.biWidth = screenWidth;
+        bi.biHeight = -screenHeight; // Negative to ensure the image isn't upside-down
+        bi.biPlanes = 1;
+        bi.biBitCount = 32;
+        bi.biCompression = BI_RGB;
+        bi.biSizeImage = 0;
+        bi.biXPelsPerMeter = 0;
+        bi.biYPelsPerMeter = 0;
+        bi.biClrUsed = 0;
+        bi.biClrImportant = 0;
+
+        // Retrieve bitmap data
+        int imageSize = screenWidth * screenHeight * 4;
+        unsigned char* buffer = new unsigned char[imageSize];
+        GetDIBits(hMemoryDC, hBitmap, 0, screenHeight, buffer, (BITMAPINFO*)&bi, DIB_RGB_COLORS);
+
+        // Set up the NDI video frame
         NDIlib_video_frame_v2_t ndiVideoFrame;
-        ndiVideoFrame.xres = width;
-        ndiVideoFrame.yres = height;
-        ndiVideoFrame.FourCC = NDIlib_FourCC_type_RGBX; // Use RGBX pixel format
-        ndiVideoFrame.frame_rate_N = 30000; // 30fps (30,000/1000)
+        ndiVideoFrame.xres = screenWidth;
+        ndiVideoFrame.yres = screenHeight;
+        ndiVideoFrame.FourCC = NDIlib_FourCC_type_RGBX; // RGBX format
+        ndiVideoFrame.frame_rate_N = 30000; // 30fps
         ndiVideoFrame.frame_rate_D = 1000;
-
-        // Allocate memory for the video frame
-        unsigned char* videoData = new unsigned char[width * height * 4];
-        if (!videoData) {
-            std::cerr << "Failed to allocate memory for video data." << std::endl;
-            return false;
-        }
-
-        // Fill the frame with a solid color
-        unsigned char colorValue = static_cast<unsigned char>((i * 2) % 255);
-        for (int pixel = 0; pixel < width * height; ++pixel) {
-            videoData[pixel * 4] = colorValue;
-            videoData[pixel * 4 + 1] = 0;
-            videoData[pixel * 4 + 2] = 0;
-            videoData[pixel * 4 + 3] = 255;
-        }
-
-        // Set the video frame data
-        ndiVideoFrame.p_data = videoData;
-        ndiVideoFrame.line_stride_in_bytes = width * 4;
+        ndiVideoFrame.line_stride_in_bytes = screenWidth * 4;
+        ndiVideoFrame.p_data = buffer;
 
         // Send the video frame
         NDIlib_send_send_video_v2(ndiSend_, &ndiVideoFrame);
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(33));
+        // Free the buffer after sending
+        delete[] buffer;
 
-        delete[] videoData;
+        // Delay to match the frame rate
+        std::this_thread::sleep_for(std::chrono::milliseconds(33));
     }
 
-    std::cout << "Completed sending video from source: " << currentVideoSource_ << std::endl;
+    // Cleanup
+    DeleteObject(hBitmap);
+    DeleteDC(hMemoryDC);
+    ReleaseDC(NULL, hScreenDC);
+
+    std::cout << "Completed sending desktop feed." << std::endl;
     return true;
 }
 
@@ -280,4 +260,30 @@ bool NDISender::sendAudio(const std::string& audioSource) {
     delete[] audioData;
     qDebug() << "Audio feed sent successfully.";
     return true;
+}
+
+bool NDISender::IsMainApplicationWindow(HWND hWnd) {
+    return (IsWindowVisible(hWnd) && GetWindow(hWnd, GW_OWNER) == NULL);
+}
+
+// A static helper callback function for EnumWindows
+static BOOL CALLBACK EnumWindowsCallback(HWND hWnd, LPARAM lParam) {
+    if (NDISender::IsMainApplicationWindow(hWnd)) {
+        TCHAR windowTitle[MAX_PATH];
+        GetWindowText(hWnd, windowTitle, sizeof(windowTitle) / sizeof(TCHAR));
+
+        // Only add if the window has a title (i.e., it's a user-facing window)
+        if (wcslen(windowTitle) > 0) {
+            auto appList = reinterpret_cast<QStringList*>(lParam);
+            appList->append(QString::fromWCharArray(windowTitle));
+        }
+    }
+    return TRUE; // Continue enumeration
+}
+
+QStringList NDISender::getRunningApplications() {
+    QStringList appList;
+    // Use the static callback function
+    EnumWindows(EnumWindowsCallback, reinterpret_cast<LPARAM>(&appList));
+    return appList;
 }

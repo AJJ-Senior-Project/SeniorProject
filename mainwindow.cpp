@@ -10,8 +10,6 @@
 #include <iostream>       // Include for std::cerr, std::endl
 #include <QDebug>
 
-
-
 mainpage::mainpage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::mainpage)
@@ -140,7 +138,7 @@ void mainpage::displayVideoFrame(const QImage &frame)
 // Populate application sources in combo box
 void mainpage::populateApplicationSources()
 {
-    QStringList applications = getRunningApplications();
+    QStringList applications = ndiSender->getRunningApplications();
     ui->comboBox_3->addItems(applications);
 }
 
@@ -190,32 +188,4 @@ void mainpage::on_sendSignalButton_clicked()
     }
 
     qDebug() << "NDI stream started with selected options.";
-}
-
-QStringList mainpage::getRunningApplications() {
-    QStringList appList;
-
-    DWORD processes[1024], processCount, cbNeeded;
-    if (!EnumProcesses(processes, sizeof(processes), &cbNeeded)) {
-        return appList;
-    }
-
-    processCount = cbNeeded / sizeof(DWORD);
-    for (unsigned int i = 0; i < processCount; ++i) {
-        if (processes[i] != 0) {
-            HANDLE hProcess = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, FALSE, processes[i]);
-            if (hProcess) {
-                HMODULE hMod;
-                DWORD cbNeeded;
-                if (EnumProcessModules(hProcess, &hMod, sizeof(hMod), &cbNeeded)) {
-                    TCHAR processName[MAX_PATH];
-                    if (GetModuleBaseName(hProcess, hMod, processName, sizeof(processName) / sizeof(TCHAR))) {
-                        appList << QString::fromWCharArray(processName);
-                    }
-                }
-                CloseHandle(hProcess);
-            }
-        }
-    }
-    return appList;
 }

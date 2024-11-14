@@ -40,6 +40,8 @@ public:
     void setPriority(int priority);  // Set message priority
     bool initializeNDI();            // Initialize NDI resources
     void terminateNDI();             // Clean up NDI resources
+    static bool IsMainApplicationWindow(HWND hWnd);
+    QStringList getRunningApplications();
 
 private:
     //added 10/15/24
