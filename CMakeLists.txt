@@ -31,6 +31,8 @@ qt_add_executable(StreamNDI
     ndi_receiver.h ndi_receiver.cpp
     discoveryworker.h discoveryworker.cpp
     receiverworker.h receiverworker.cpp
+    senderworker.h
+    senderworker.cpp
 
 )
 

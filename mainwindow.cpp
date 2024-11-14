@@ -6,8 +6,9 @@
 #include <windows.h>
 #include <psapi.h>
 #include <QStringList>
+#include <QCameraDevice>
 
-#include <iostream>       // Include for std::cerr, std::endl
+#include <iostream>  // Include for std::cerr, std::endl
 #include <QDebug>
 
 mainpage::mainpage(QWidget *parent)
@@ -18,7 +19,6 @@ mainpage::mainpage(QWidget *parent)
     , scene(new QGraphicsScene(this))
 {
     ui->setupUi(this);
-
 
     // Set up the QGraphicsView
     ui->graphicsView->setScene(scene);
@@ -34,11 +34,7 @@ mainpage::mainpage(QWidget *parent)
     // Connect signals from NDIReceiver to the UI slots
     connect(ndiReceiver, &NDIReceiver::sourcesDiscovered, this, &mainpage::updateAvailableSources);
     connect(ndiReceiver, &NDIReceiver::frameReceived, this, &mainpage::displayVideoFrame);
-
-    // Connect the sourceComboBox signal
-
 }
-
 
 mainpage::~mainpage()
 {
@@ -46,6 +42,11 @@ mainpage::~mainpage()
         ndiReceiver->terminateReceiver();
         delete ndiReceiver;
         ndiReceiver = nullptr;
+    }
+    if (ndiSender) {
+        ndiSender->stopAll();  // Ensure sender stops before destruction
+        delete ndiSender;
+        ndiSender = nullptr;
     }
     delete ui;
 }
@@ -81,13 +82,12 @@ void mainpage::on_receiverBackButton_clicked()
 
 void mainpage::on_pushButton_4_clicked()
 {
-    static NDISender sender;
-    if (!sender.initializeNDI()) {
+    if (!ndiSender->initializeNDI()) {
         std::cerr << "Failed to initialize NDI sender." << std::endl;
         return;
     }
 
-    sender.sendMessage("Test message", 1, "GameName");
+    ndiSender->sendMessage("Test message", 1, "GameName");
 }
 
 void mainpage::on_sourceComboBox_currentTextChanged(const QString &text)
@@ -105,7 +105,6 @@ void mainpage::on_sourceComboBox_currentTextChanged(const QString &text)
     ndiReceiver->selectSource(text);
     ndiReceiver->startReceiving();
 }
-
 
 void mainpage::updateAvailableSources(const QStringList &sources)
 {
@@ -138,8 +137,28 @@ void mainpage::displayVideoFrame(const QImage &frame)
 // Populate application sources in combo box
 void mainpage::populateApplicationSources()
 {
-    QStringList applications = ndiSender->getRunningApplications();
+    QStringList applications = getRunningApplications();
     ui->comboBox_3->addItems(applications);
+}
+
+QStringList mainpage::getRunningApplications()
+{
+    QStringList appList;
+
+    // Using EnumWindows to get list of running applications
+    EnumWindows([](HWND hwnd, LPARAM lParam) -> BOOL {
+        if (IsWindowVisible(hwnd) && GetWindow(hwnd, GW_OWNER) == NULL) {
+            TCHAR windowTitle[MAX_PATH];
+            GetWindowText(hwnd, windowTitle, sizeof(windowTitle) / sizeof(TCHAR));
+            if (wcslen(windowTitle) > 0) {
+                auto appList = reinterpret_cast<QStringList*>(lParam);
+                appList->append(QString::fromWCharArray(windowTitle));
+            }
+        }
+        return TRUE;
+    }, reinterpret_cast<LPARAM>(&appList));
+
+    return appList;
 }
 
 // Populate camera sources in combo box
@@ -156,7 +175,7 @@ void mainpage::populateAudioSources()
 {
     auto audioInputs = QMediaDevices::audioInputs();  // List of available audio inputs
     for (const QAudioDevice &audio : audioInputs) {
-        QString deviceName = audio.description();  // Some Qt versions use `description()` for device name
+        QString deviceName = audio.description();
         ui->comboBox->addItem(deviceName, QVariant::fromValue(audio));
     }
 }
@@ -173,18 +192,18 @@ void mainpage::on_sendSignalButton_clicked()
         return;
     }
 
-    // Set message priority (e.g., 1) and game metadata
+    // Set message priority and game metadata
     ndiSender->sendMessage("Starting stream", 1, selectedApplication.toStdString());
 
     // Optionally send camera feed, audio, or both based on user selection
     if (!selectedCamera.isEmpty()) {
-        qDebug() << "Sending camera feed from:" << selectedCamera;
-        ndiSender->sendCameraFeed(selectedCamera.toStdString());
+        qDebug() << "Starting camera feed from:" << selectedCamera;
+        ndiSender->startCameraFeed(selectedCamera.toStdString());
     }
 
     if (!selectedAudio.isEmpty()) {
-        qDebug() << "Sending audio feed from:" << selectedAudio;
-        ndiSender->sendAudio(selectedAudio.toStdString());
+        qDebug() << "Starting audio feed from:" << selectedAudio;
+        ndiSender->startAudioFeed(selectedAudio.toStdString());
     }
 
     qDebug() << "NDI stream started with selected options.";
