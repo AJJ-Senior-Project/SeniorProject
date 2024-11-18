@@ -33,6 +33,7 @@ qt_add_executable(StreamNDI
     receiverworker.h receiverworker.cpp
     senderworker.h
     senderworker.cpp
+    cameraworker.h cameraworker.cpp
 
 )
 

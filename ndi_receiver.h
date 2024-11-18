@@ -6,6 +6,7 @@
 #include <QStringList>
 #include <QThread>
 #include <mutex>
+#include <map>
 
 class DiscoveryWorker;
 class ReceiverWorker;
@@ -20,24 +21,22 @@ public:
     bool initializeReceiver();
     void startDiscovery();
     void selectSource(const QString &sourceName);
-    void startReceiving();
     void stopReceiving();
     void terminateReceiver();
 
 signals:
     void sourcesDiscovered(const QStringList &sources);
-    void frameReceived(const QImage &frame);
+    void frameReceived(const QString &sourceName, const QImage &frame);
 
-    void stopReceivingSignal();  // Signal to stop the receiver worker
+    void stopReceivingSignal();  // Signal to stop the receiver workers
 
 private:
     NDIlib_find_instance_t ndiFindInstance;
-    NDIlib_recv_instance_t ndiReceiverInstance;
+    std::map<QString, NDIlib_recv_instance_t> ndiReceiverInstances;
+    std::map<QString, QThread*> receiverThreads;
+    std::map<QString, ReceiverWorker*> receiverWorkers;
     QThread *discoveryThread;
-    QThread *receiverThread;
     DiscoveryWorker *discoveryWorker;
-    ReceiverWorker *receiverWorker;
-    std::vector<NDIlib_source_t> availableSources;
     std::mutex sourcesMutex;
 };
 

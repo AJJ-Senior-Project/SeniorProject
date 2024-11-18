@@ -1,14 +1,11 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "ndi_sender.h"
 #include <QMediaDevices>
 #include <QAudioDevice>
 #include <windows.h>
 #include <psapi.h>
 #include <QStringList>
 #include <QCameraDevice>
-
-#include <iostream>  // Include for std::cerr, std::endl
 #include <QDebug>
 
 mainpage::mainpage(QWidget *parent)
@@ -16,20 +13,30 @@ mainpage::mainpage(QWidget *parent)
     , ui(new Ui::mainpage)
     , ndiReceiver(new NDIReceiver())
     , ndiSender(new NDISender())
-    , scene(new QGraphicsScene(this))
 {
     ui->setupUi(this);
 
-    // Set up the QGraphicsView
-    ui->graphicsView->setScene(scene);
+    // Set up the graphicsViews
+    graphicsViews["graphicsView_3"] = ui->graphicsView_3;
+    graphicsViews["graphicsView_4"] = ui->graphicsView_4;
+    graphicsViews["graphicsView_5"] = ui->graphicsView_5;
+    graphicsViews["graphicsView_6"] = ui->graphicsView_6;
+
+    // Initialize scenes
+    scenes["graphicsView_3"] = new QGraphicsScene(this);
+    scenes["graphicsView_4"] = new QGraphicsScene(this);
+    scenes["graphicsView_5"] = new QGraphicsScene(this);
+    scenes["graphicsView_6"] = new QGraphicsScene(this);
+
+    ui->graphicsView_3->setScene(scenes["graphicsView_3"]);
+    ui->graphicsView_4->setScene(scenes["graphicsView_4"]);
+    ui->graphicsView_5->setScene(scenes["graphicsView_5"]);
+    ui->graphicsView_6->setScene(scenes["graphicsView_6"]);
 
     // Populate the source combo boxes
     populateApplicationSources();
     populateCameraSources();
     populateAudioSources();
-
-    // Connect the "Send" button to send signal slot
-    connect(ui->pushButton_4, &QPushButton::clicked, this, &mainpage::on_sendSignalButton_clicked);
 
     // Connect signals from NDIReceiver to the UI slots
     connect(ndiReceiver, &NDIReceiver::sourcesDiscovered, this, &mainpage::updateAvailableSources);
@@ -44,7 +51,7 @@ mainpage::~mainpage()
         ndiReceiver = nullptr;
     }
     if (ndiSender) {
-        ndiSender->stopAll();  // Ensure sender stops before destruction
+        ndiSender->stopAll();
         delete ndiSender;
         ndiSender = nullptr;
     }
@@ -66,7 +73,7 @@ void mainpage::on_selectReceiveButton_clicked()
         return;
     }
 
-    // Start discovering sources in a separate thread
+    // Start discovering sources
     ndiReceiver->startDiscovery();
 }
 
@@ -80,57 +87,55 @@ void mainpage::on_receiverBackButton_clicked()
     ui->stackedWidget->setCurrentIndex(0);
 }
 
-void mainpage::on_pushButton_4_clicked()
-{
-    if (!ndiSender->initializeNDI()) {
-        std::cerr << "Failed to initialize NDI sender." << std::endl;
-        return;
-    }
-
-    ndiSender->sendMessage("Test message", 1, "GameName");
-}
-
 void mainpage::on_sourceComboBox_currentTextChanged(const QString &text)
 {
-    if (text.isEmpty()) {
-        return;
-    }
-
-    qDebug() << "Starting to receive from source:" << text;
-
-    // Stop any current receiving
-    ndiReceiver->stopReceiving();
-
-    // Start receiving from the selected source
-    ndiReceiver->selectSource(text);
-    ndiReceiver->startReceiving();
+    // Deprecated; we're now displaying all sources
 }
 
 void mainpage::updateAvailableSources(const QStringList &sources)
 {
     ui->sourceComboBox->clear();
     ui->sourceComboBox->addItems(sources);
+
+    // Assign sources to graphicsViews
+    int index = 0;
+    QStringList graphicsViewNames = { "graphicsView_3", "graphicsView_4", "graphicsView_5", "graphicsView_6" };
+    foreach (const QString &source, sources) {
+        if (index < graphicsViewNames.size()) {
+            QString viewName = graphicsViewNames[index];
+            sourceScenes[source] = scenes[viewName];
+            ndiReceiver->selectSource(source); // Automatically start receiving from this source
+            ++index;
+        } else {
+            // No more graphicsViews available
+            break;
+        }
+    }
 }
 
-void mainpage::displayVideoFrame(const QImage &frame)
+void mainpage::displayVideoFrame(const QString &sourceName, const QImage &frame)
 {
     if (frame.isNull()) {
-        qDebug() << "Received null image.";
+        qDebug() << "Received null image from source:" << sourceName;
         return;
     }
 
-    if (!scene) {
-        qDebug() << "Scene is null.";
+    if (!sourceScenes.contains(sourceName)) {
+        qDebug() << "No scene assigned for source:" << sourceName;
         return;
     }
 
+    QGraphicsScene *scene = sourceScenes[sourceName];
     scene->clear();
     scene->addPixmap(QPixmap::fromImage(frame));
 
-    if (ui && ui->graphicsView) {
-        ui->graphicsView->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
-    } else {
-        qDebug() << "graphicsView is null.";
+    // Get the corresponding graphicsView
+    foreach (const QString &viewName, scenes.keys()) {
+        if (scenes[viewName] == scene) {
+            QGraphicsView *view = graphicsViews[viewName];
+            view->fitInView(scene->itemsBoundingRect(), Qt::KeepAspectRatio);
+            break;
+        }
     }
 }
 
@@ -154,6 +159,7 @@ QStringList mainpage::getRunningApplications()
                 auto appList = reinterpret_cast<QStringList*>(lParam);
                 appList->append(QString::fromWCharArray(windowTitle));
             }
+
         }
         return TRUE;
     }, reinterpret_cast<LPARAM>(&appList));
@@ -166,7 +172,7 @@ void mainpage::populateCameraSources()
 {
     auto cameras = QMediaDevices::videoInputs();  // List of available video cameras
     for (const auto &camera : cameras) {
-        ui->comboBox_2->addItem(camera.description(), QVariant::fromValue(camera));
+        ui->comboBox_2->addItem(camera.description(), QVariant::fromValue(camera.id()));
     }
 }
 
@@ -176,7 +182,7 @@ void mainpage::populateAudioSources()
     auto audioInputs = QMediaDevices::audioInputs();  // List of available audio inputs
     for (const QAudioDevice &audio : audioInputs) {
         QString deviceName = audio.description();
-        ui->comboBox->addItem(deviceName, QVariant::fromValue(audio));
+        ui->comboBox->addItem(deviceName, QVariant::fromValue(audio.id()));
     }
 }
 
@@ -184,27 +190,18 @@ void mainpage::populateAudioSources()
 void mainpage::on_sendSignalButton_clicked()
 {
     QString selectedApplication = ui->comboBox_3->currentText();
-    QString selectedCamera = ui->comboBox_2->currentText();
-    QString selectedAudio = ui->comboBox->currentText();
+    QString selectedCameraId = ui->comboBox_2->currentData().toString();
+    QString selectedAudioId = ui->comboBox->currentData().toString();
 
     if (!ndiSender->initializeNDI()) {
         qDebug() << "Failed to initialize NDI sender.";
         return;
     }
 
-    // Set message priority and game metadata
-    ndiSender->sendMessage("Starting stream", 1, selectedApplication.toStdString());
+    ndiSender->sendMessage("Starting stream", 1, selectedApplication);
 
-    // Optionally send camera feed, audio, or both based on user selection
-    if (!selectedCamera.isEmpty()) {
-        qDebug() << "Starting camera feed from:" << selectedCamera;
-        ndiSender->startCameraFeed(selectedCamera.toStdString());
-    }
+    // Start all streams
+    ndiSender->startAllStreams(selectedCameraId, selectedAudioId, selectedApplication);
 
-    if (!selectedAudio.isEmpty()) {
-        qDebug() << "Starting audio feed from:" << selectedAudio;
-        ndiSender->startAudioFeed(selectedAudio.toStdString());
-    }
-
-    qDebug() << "NDI stream started with selected options.";
+    qDebug() << "NDI streams started with selected options.";
 }

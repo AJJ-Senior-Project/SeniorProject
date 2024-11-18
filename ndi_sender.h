@@ -1,15 +1,10 @@
 #ifndef NDI_SENDER_H
 #define NDI_SENDER_H
 
-#include <windows.h>  // Add this line to resolve 'HWND' error
-#include <cstddef>    // For NULL definition
-#include <iostream>   // Include other necessary headers
 #include <QObject>
-#include <QStringList>
-#include <QThread>
 #include <Processing.NDI.Lib.h>
-#include <string>
-#include <mutex>
+#include <QThread>
+#include <QString>
 #include "senderworker.h"
 
 class NDISender : public QObject
@@ -20,17 +15,17 @@ public:
     ~NDISender();
 
     bool initializeNDI();
-    void startScreenCapture();
-    void startCameraFeed(const std::string &cameraID);
-    void startAudioFeed(const std::string &audioSource);
-    void sendMessage(const std::string &message, int priority, const std::string &game);
+    void sendMessage(const QString &message, int priority, const QString &application);
+    void startAllStreams(const QString &cameraID, const QString &audioSource, const QString &applicationName);
+
     void stopAll();
 
 private:
-    bool initialized_ = false;
-    NDIlib_send_instance_t ndiSend_;
-    QThread *workerThread;
-    SenderWorker *senderWorker;
+    bool initialized_;
+    NDIlib_send_instance_t ndiSendCameraMic_;
+    NDIlib_send_instance_t ndiSendScreenShare_;
+    QThread *workerThread_;
+    SenderWorker *senderWorker_;
 };
 
 #endif // NDI_SENDER_H

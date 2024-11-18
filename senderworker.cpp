@@ -4,174 +4,315 @@
 #include <wingdi.h>
 #include <chrono>
 #include <thread>
-#include <sstream>
-#include <cmath>
+#include <QAudioFormat>
+#include <QVideoFrame>
+#include <QImage>
+#include <QVideoFrameFormat>
 
-SenderWorker::SenderWorker(NDIlib_send_instance_t ndiSendInstance, QObject *parent)
-    : QObject(parent), ndiSendInstance(ndiSendInstance), sendingScreen(false), sendingCamera(false), sendingAudio(false)
+SenderWorker::SenderWorker(NDIlib_send_instance_t ndiSendCameraMicInstance,
+                           NDIlib_send_instance_t ndiSendScreenShareInstance,
+                           QObject *parent)
+    : QObject(parent),
+    ndiSendCameraMicInstance_(ndiSendCameraMicInstance),
+    ndiSendScreenShareInstance_(ndiSendScreenShareInstance),
+    targetWindowHandle_(nullptr),
+    sending_(false),
+    screenCaptureTimer_(nullptr),
+    audioCaptureTimer_(nullptr),
+    camera_(nullptr),
+    captureSession_(nullptr),
+    videoSink_(nullptr),
+    audioInput_(nullptr),
+    audioIO_(nullptr)
 {
 }
 
 SenderWorker::~SenderWorker()
 {
+    stopAll();
 }
 
-void SenderWorker::startScreenCapture()
+void SenderWorker::start(const QString &cameraID, const QString &audioSource, const QString &applicationName)
 {
-    sendingScreen = true;
-    qDebug() << "SenderWorker: Starting screen capture sending loop.";
+    sending_ = true;
 
-    while (sendingScreen) {
-        captureScreen();
-        std::this_thread::sleep_for(std::chrono::milliseconds(33));  // ~30fps
+    // Start camera feed
+    startCameraFeed(cameraID);
+
+    // Start audio feed
+    startAudioFeed(audioSource);
+
+    // Start screen capture
+    startScreenCapture(applicationName);
+}
+
+void SenderWorker::startScreenCapture(const QString &applicationName)
+{
+    qDebug() << "SenderWorker: Starting screen capture for application:" << applicationName;
+
+    // Find the window handle (HWND) for the application
+    targetWindowHandle_ = nullptr;
+
+    struct FindWindowData {
+        QString targetWindowTitle;
+        HWND hwnd;
+    };
+
+    FindWindowData data;
+    data.targetWindowTitle = applicationName;
+    data.hwnd = nullptr;
+
+    EnumWindows([](HWND hwnd, LPARAM lParam) -> BOOL {
+        FindWindowData *data = reinterpret_cast<FindWindowData*>(lParam);
+        TCHAR windowTitle[MAX_PATH];
+        GetWindowText(hwnd, windowTitle, MAX_PATH);
+        if (IsWindowVisible(hwnd) && wcslen(windowTitle) > 0) {
+            QString currentWindowTitle = QString::fromWCharArray(windowTitle);
+            if (currentWindowTitle == data->targetWindowTitle) {
+                data->hwnd = hwnd;
+                return FALSE; // Stop enumeration
+            }
+        }
+        return TRUE;
+    }, reinterpret_cast<LPARAM>(&data));
+
+    if (!data.hwnd) {
+        qWarning() << "Could not find window for application:" << applicationName;
+        return;
     }
 
-    qDebug() << "SenderWorker: Stopped sending screen capture.";
+    targetWindowHandle_ = data.hwnd;
+    qDebug() << "Found window handle for application.";
+
+    // Start a timer to capture screen periodically
+    screenCaptureTimer_ = new QTimer(this);
+    connect(screenCaptureTimer_, &QTimer::timeout, this, &SenderWorker::captureScreen);
+    screenCaptureTimer_->start(33); // Approximately 30 fps
 }
 
-void SenderWorker::startCameraFeed(const std::string &cameraID)
+void SenderWorker::startCameraFeed(const QString &cameraID)
 {
-    sendingCamera = true;
-    qDebug() << "SenderWorker: Starting camera feed sending loop.";
+    qDebug() << "SenderWorker: Starting camera feed with camera ID:" << cameraID;
 
-    while (sendingCamera) {
-        captureCameraFeed(cameraID);
-        std::this_thread::sleep_for(std::chrono::milliseconds(33));  // ~30fps
+    // Find the camera by ID
+    QCameraDevice selectedCamera;
+    auto cameras = QMediaDevices::videoInputs();
+    for (const auto &cam : cameras) {
+        if (cam.id() == cameraID) {
+            selectedCamera = cam;
+            break;
+        }
     }
 
-    qDebug() << "SenderWorker: Stopped sending camera feed.";
+    if (!selectedCamera.isNull()) {
+        camera_ = new QCamera(selectedCamera);
+        captureSession_ = new QMediaCaptureSession();
+        videoSink_ = new QVideoSink();
+
+        captureSession_->setCamera(camera_);
+        captureSession_->setVideoSink(videoSink_);
+
+        connect(videoSink_, &QVideoSink::videoFrameChanged, this, &SenderWorker::onCameraFrameReceived);
+
+        camera_->start();
+        qDebug() << "Camera started.";
+    } else {
+        qWarning() << "Selected camera not found.";
+    }
 }
 
-void SenderWorker::startAudioFeed(const std::string &audioSource)
+void SenderWorker::onCameraFrameReceived(const QVideoFrame &frame)
 {
-    sendingAudio = true;
-    qDebug() << "SenderWorker: Starting audio feed sending loop.";
+    if (!ndiSendCameraMicInstance_) return;
 
-    while (sendingAudio) {
-        captureAudioFeed(audioSource);
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));  // Adjust rate as needed
+    if (!frame.isValid()) {
+        qWarning() << "Invalid video frame received.";
+        return;
     }
 
-    qDebug() << "SenderWorker: Stopped sending audio feed.";
+    QImage image = frame.toImage();
+    if (image.isNull()) {
+        qWarning() << "Received invalid image from camera.";
+        return;
+    }
+
+    // Convert image to ARGB32 format if necessary
+    if (image.format() != QImage::Format_ARGB32) {
+        image = image.convertToFormat(QImage::Format_ARGB32);
+    }
+
+    // Create a copy of the image data
+    QByteArray imageData((const char*)image.bits(), image.sizeInBytes());
+
+    NDIlib_video_frame_v2_t ndiFrame;
+    ndiFrame.xres = image.width();
+    ndiFrame.yres = image.height();
+    ndiFrame.FourCC = NDIlib_FourCC_type_BGRA;
+    ndiFrame.frame_rate_N = 30000;
+    ndiFrame.frame_rate_D = 1001;
+    ndiFrame.picture_aspect_ratio = static_cast<float>(image.width()) / static_cast<float>(image.height());
+    ndiFrame.line_stride_in_bytes = image.bytesPerLine();
+    ndiFrame.p_data = reinterpret_cast<uint8_t*>(imageData.data());
+
+    NDIlib_send_send_video_v2(ndiSendCameraMicInstance_, &ndiFrame);
 }
 
-void SenderWorker::sendMessage(const std::string &message, int priority, const std::string &game)
+void SenderWorker::startAudioFeed(const QString &audioSource)
 {
-    if (!ndiSendInstance) return;
+    qDebug() << "SenderWorker: Starting audio feed with audio source:" << audioSource;
 
-    std::stringstream jsonMessage;
-    jsonMessage << "{\"priority\":" << priority << ",\"message\":\"" << message
-                << "\",\"game\":\"" << game << "\"}";
+    QAudioDevice device = QMediaDevices::defaultAudioInput();
+    if (!audioSource.isEmpty()) {
+        auto devices = QMediaDevices::audioInputs();
+        for (const auto &dev : devices) {
+            if (dev.id() == audioSource) {
+                device = dev;
+                break;
+            }
+        }
+    }
 
-    NDIlib_metadata_frame_t metadataFrame;
-    metadataFrame.p_data = const_cast<char *>(jsonMessage.str().c_str());
-    metadataFrame.length = strlen(jsonMessage.str().c_str());
+    QAudioFormat format;
+    format.setSampleRate(48000);
+    format.setChannelCount(2);
+    format.setSampleFormat(QAudioFormat::Int16);
 
-    NDIlib_send_send_metadata(ndiSendInstance, &metadataFrame);
+    if (!device.isFormatSupported(format)) {
+        qWarning() << "Requested audio format not supported. Trying preferred format.";
+        format = device.preferredFormat();
+        if (format.sampleFormat() != QAudioFormat::Int16) {
+            qWarning() << "Preferred format is not Int16. Audio feed may not work properly.";
+        }
+    }
+
+    audioInput_ = new QAudioSource(device, format, this);
+    audioIO_ = audioInput_->start();
+
+    connect(audioIO_, &QIODevice::readyRead, this, [this]() {
+        QMutexLocker locker(&audioMutex_);
+        QByteArray data = audioIO_->readAll();
+        audioBuffer_.append(data);
+    });
+
+    // Start a timer to send audio frames periodically
+    audioCaptureTimer_ = new QTimer(this);
+    connect(audioCaptureTimer_, &QTimer::timeout, this, &SenderWorker::captureAudioFeed);
+    audioCaptureTimer_->start(20); // Adjust as needed
+}
+
+void SenderWorker::captureAudioFeed()
+{
+    if (!ndiSendCameraMicInstance_) return;
+
+    QMutexLocker locker(&audioMutex_);
+    if (audioBuffer_.isEmpty()) return;
+
+    QByteArray audioData = audioBuffer_;
+    audioBuffer_.clear();
+
+    int numChannels = 2; // Assuming stereo audio
+    int totalSamples = audioData.size() / sizeof(int16_t);
+    int numSamples = totalSamples / numChannels;
+
+    const int16_t* int16Data = reinterpret_cast<const int16_t*>(audioData.constData());
+
+    // Convert int16_t samples to float samples
+    std::vector<float> floatBuffer(totalSamples);
+    for (int i = 0; i < totalSamples; ++i) {
+        floatBuffer[i] = int16Data[i] / 32768.0f;
+    }
+
+    NDIlib_audio_frame_v2_t audioFrame;
+    audioFrame.sample_rate = 48000;
+    audioFrame.no_channels = numChannels;
+    audioFrame.no_samples = numSamples;
+    audioFrame.p_data = floatBuffer.data();
+    audioFrame.channel_stride_in_bytes = numSamples * sizeof(float);
+
+    NDIlib_send_send_audio_v2(ndiSendCameraMicInstance_, &audioFrame);
 }
 
 void SenderWorker::stopAll()
 {
-    sendingScreen = false;
-    sendingCamera = false;
-    sendingAudio = false;
+    sending_ = false;
+
+    if (screenCaptureTimer_) {
+        screenCaptureTimer_->stop();
+        screenCaptureTimer_->deleteLater();
+        screenCaptureTimer_ = nullptr;
+    }
+
+    if (audioCaptureTimer_) {
+        audioCaptureTimer_->stop();
+        audioCaptureTimer_->deleteLater();
+        audioCaptureTimer_ = nullptr;
+    }
+
+    if (camera_) {
+        camera_->stop();
+        delete captureSession_;
+        captureSession_ = nullptr;
+        delete camera_;
+        camera_ = nullptr;
+        delete videoSink_;
+        videoSink_ = nullptr;
+        qDebug() << "Camera feed stopped.";
+    }
+
+    if (audioInput_) {
+        audioInput_->stop();
+        delete audioInput_;
+        audioInput_ = nullptr;
+        audioIO_ = nullptr;
+        qDebug() << "Audio feed stopped.";
+    }
+
+    emit finished();
 }
 
-// Screen Capture Implementation
 void SenderWorker::captureScreen()
 {
-    if (!ndiSendInstance) return;
+    if (!ndiSendScreenShareInstance_ || !targetWindowHandle_) return;
 
-    HDC hScreenDC = GetDC(NULL);
-    HDC hMemoryDC = CreateCompatibleDC(hScreenDC);
-    int screenWidth = GetDeviceCaps(hScreenDC, HORZRES);
-    int screenHeight = GetDeviceCaps(hScreenDC, VERTRES);
-    HBITMAP hBitmap = CreateCompatibleBitmap(hScreenDC, screenWidth, screenHeight);
+    HDC hWindowDC = GetDC(targetWindowHandle_);
+    HDC hMemoryDC = CreateCompatibleDC(hWindowDC);
+
+    RECT rect;
+    GetClientRect(targetWindowHandle_, &rect);
+    int windowWidth = rect.right - rect.left;
+    int windowHeight = rect.bottom - rect.top;
+
+    HBITMAP hBitmap = CreateCompatibleBitmap(hWindowDC, windowWidth, windowHeight);
     SelectObject(hMemoryDC, hBitmap);
 
-    BitBlt(hMemoryDC, 0, 0, screenWidth, screenHeight, hScreenDC, 0, 0, SRCCOPY);
+    BitBlt(hMemoryDC, 0, 0, windowWidth, windowHeight, hWindowDC, 0, 0, SRCCOPY);
 
     BITMAPINFOHEADER bi;
+    memset(&bi, 0, sizeof(bi));
     bi.biSize = sizeof(BITMAPINFOHEADER);
-    bi.biWidth = screenWidth;
-    bi.biHeight = -screenHeight;  // Negative height to correct image orientation
+    bi.biWidth = windowWidth;
+    bi.biHeight = -windowHeight;  // Negative height to correct image orientation
     bi.biPlanes = 1;
     bi.biBitCount = 32;
     bi.biCompression = BI_RGB;
 
-    int imageSize = screenWidth * screenHeight * 4;
-    unsigned char *buffer = new unsigned char[imageSize];
-    GetDIBits(hMemoryDC, hBitmap, 0, screenHeight, buffer, (BITMAPINFO *)&bi, DIB_RGB_COLORS);
+    int imageSize = windowWidth * windowHeight * 4;
+    std::vector<unsigned char> buffer(imageSize);
+    GetDIBits(hMemoryDC, hBitmap, 0, windowHeight, buffer.data(), reinterpret_cast<BITMAPINFO*>(&bi), DIB_RGB_COLORS);
 
     NDIlib_video_frame_v2_t ndiVideoFrame;
-    ndiVideoFrame.xres = screenWidth;
-    ndiVideoFrame.yres = screenHeight;
-    ndiVideoFrame.FourCC = NDIlib_FourCC_type_RGBX;
-    ndiVideoFrame.p_data = buffer;
+    ndiVideoFrame.xres = windowWidth;
+    ndiVideoFrame.yres = windowHeight;
+    ndiVideoFrame.FourCC = NDIlib_FourCC_type_BGRA;
+    ndiVideoFrame.p_data = buffer.data();
+    ndiVideoFrame.line_stride_in_bytes = windowWidth * 4;
+    ndiVideoFrame.frame_rate_N = 30000;
+    ndiVideoFrame.frame_rate_D = 1001;
+    ndiVideoFrame.picture_aspect_ratio = static_cast<float>(windowWidth) / static_cast<float>(windowHeight);
 
-    NDIlib_send_send_video_v2(ndiSendInstance, &ndiVideoFrame);
+    NDIlib_send_send_video_v2(ndiSendScreenShareInstance_, &ndiVideoFrame);
 
-    delete[] buffer;
     DeleteObject(hBitmap);
     DeleteDC(hMemoryDC);
-    ReleaseDC(NULL, hScreenDC);
-}
-
-// Camera Feed Capture Implementation
-void SenderWorker::captureCameraFeed(const std::string &cameraID)
-{
-    if (!ndiSendInstance) return;
-
-    const int width = 1280;
-    const int height = 720;
-    const int frameRate = 30;
-
-    NDIlib_video_frame_v2_t videoFrame;
-    videoFrame.xres = width;
-    videoFrame.yres = height;
-    videoFrame.FourCC = NDIlib_FourCC_type_RGBX;
-    videoFrame.frame_rate_N = frameRate * 1000;
-    videoFrame.frame_rate_D = 1000;
-    videoFrame.line_stride_in_bytes = width * 4;
-
-    unsigned char *videoData = new unsigned char[width * height * 4];
-    unsigned char colorValue = static_cast<unsigned char>(rand() % 255);  // Random color value for testing
-    for (int pixel = 0; pixel < width * height; ++pixel) {
-        videoData[pixel * 4] = colorValue;
-        videoData[pixel * 4 + 1] = 0;
-        videoData[pixel * 4 + 2] = 0;
-        videoData[pixel * 4 + 3] = 255;
-    }
-
-    videoFrame.p_data = videoData;
-    NDIlib_send_send_video_v2(ndiSendInstance, &videoFrame);
-    delete[] videoData;
-}
-
-// Audio Feed Capture Implementation
-void SenderWorker::captureAudioFeed(const std::string &audioSource)
-{
-    if (!ndiSendInstance) return;
-
-    const int sampleRate = 48000;
-    const int numChannels = 2;
-    const int samplesPerFrame = 1600;
-
-    float *audioData = new float[samplesPerFrame * numChannels];
-
-    for (int sample = 0; sample < samplesPerFrame; ++sample) {
-        float value = 0.1f * std::sin(2.0f * 3.14159f * sample / 100.0f);
-        audioData[sample * numChannels] = value;
-        audioData[sample * numChannels + 1] = value;
-    }
-
-    NDIlib_audio_frame_v2_t audioFrame;
-    audioFrame.sample_rate = sampleRate;
-    audioFrame.no_channels = numChannels;
-    audioFrame.no_samples = samplesPerFrame;
-    audioFrame.p_data = audioData;
-    audioFrame.channel_stride_in_bytes = samplesPerFrame * sizeof(float);
-
-    NDIlib_send_send_audio_v2(ndiSendInstance, &audioFrame);
-    delete[] audioData;
+    ReleaseDC(targetWindowHandle_, hWindowDC);
 }
