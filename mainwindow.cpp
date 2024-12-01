@@ -4,6 +4,7 @@
 
 #include <iostream>       // Include for std::cerr, std::endl
 #include <QDebug>
+#include <QVBoxLayout>
 
 mainpage::mainpage(QWidget *parent)
     : QWidget(parent)
@@ -15,6 +16,10 @@ mainpage::mainpage(QWidget *parent)
 
     // Set up the QGraphicsView
     ui->graphicsView->setScene(scene);
+
+    QVBoxLayout *senderDropdown = ui->verticalLayout_10;
+    senderDropdown->setSpacing(1);
+    senderDropdown->setContentsMargins(0, 0, 0, 0);
 
     // Connect signals from NDIReceiver to the UI slots
     connect(ndiReceiver, &NDIReceiver::sourcesDiscovered, this, &mainpage::updateAvailableSources);

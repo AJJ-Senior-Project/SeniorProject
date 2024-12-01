@@ -1,3 +1,60 @@
+QStackedWidget {
+    background-color: white
+}
+
+QPushButton {
+    background-color: DodgerBlue;
+    color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+QLabel {
+    color: black;
+}
+
+QLabel#label {
+    font-size: 20px;
+}
+
+QLabel#label_2 {
+    font-size: 20px;
+}
+
+QComboBox {
+    background-color: DodgerBlue;
+    color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+QComboBox#comboBox, QComboBox#comboBox_2, QComboBox#comboBox_3 {
+    width: 150px;
+}
+
 QLabel#label {
     qproperty-alignment: AlignCenter;
+}
+
+QPushButton#selectSendButton {
+    width: 100px;
+}
+
+QPushButton#selectReceiveButton {
+    width: 100px;
+}
+
+QPushButton:hover {
+    background-color: blue;
+}
+
+QComboBox:hover {
+    background-color: blue;
 }
