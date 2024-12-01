@@ -58,3 +58,7 @@ QPushButton:hover {
 QComboBox:hover {
     background-color: blue;
 }
+
+QGraphicsView {
+    border: 3px solid black;
+}
