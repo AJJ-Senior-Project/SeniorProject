@@ -1,151 +1,134 @@
 #include "ndi_sender.h"
+#include <QDebug>
+#include <sstream> // Include this header
 
-NDISender::NDISender()
+NDISender::NDISender(QObject *parent)
+    : QObject(parent),
+    initialized_(false),
+    ndiSendCameraMic_(nullptr),
+    ndiSendScreenShare_(nullptr),
+    workerThread_(nullptr),
+    senderWorker_(nullptr)
 {
-    if (!NDIlib_initialize())
-    {
-        qDebug() << "Failure";
-    }
 }
+
 NDISender::~NDISender()
 {
-    if (ndi_send_instance)
-    {
-        NDIlib_send_destroy(ndi_send_instance);
-        ndi_send_instance = nullptr; // Ensure no dangling pointer
-    }
-    NDIlib_destroy();
-}
-
-// Startup Occurs With this
-void NDISender::initializeSender()
-{
-    NDIlib_send_create_t NDI_send_create_desc;
-    NDI_send_create_desc.p_ndi_name = "NDI Sender";
-    ndi_send_instance = NDIlib_send_create(&NDI_send_create_desc);
-    if (!ndi_send_instance)
-    {
-        qDebug() << "Failed at Initialize";
-    }
-}
-
-// Initialize NDI resources
-bool NDISender::initializeNDI() {
-    // Initialize NDI library
-    if (!NDIlib_initialize()) {
-        std::cerr << "Failed to initialize NDI." << std::endl;
-        return false;
-    }
-
-    // Create an NDI sender instance
-    NDIlib_send_create_t NDI_send_create_desc;
-    NDI_send_create_desc.p_ndi_name = "NDI Sender";
-    ndiSend_ = NDIlib_send_create(&NDI_send_create_desc);
-
-    if (!ndiSend_) {
-        std::cerr << "Failed to create NDI sender instance." << std::endl;
-        return false;
-    }
-
-    std::cout << "NDI Sender initialized successfully." << std::endl;
-    return true;
-}
-
-// Terminate NDI resources
-void NDISender::terminateNDI() {
-    if (ndiSend_) {
-        NDIlib_send_destroy(ndiSend_);
+    stopAll();
+    if (initialized_) {
+        if (ndiSendCameraMic_) {
+            NDIlib_send_destroy(ndiSendCameraMic_);
+            ndiSendCameraMic_ = nullptr;
+        }
+        if (ndiSendScreenShare_) {
+            NDIlib_send_destroy(ndiSendScreenShare_);
+            ndiSendScreenShare_ = nullptr;
+        }
         NDIlib_destroy();
-        ndiSend_ = nullptr; // Prevent dangling pointer
-        std::cout << "NDI Sender terminated successfully." << std::endl;
+        initialized_ = false;
     }
 }
 
-// Set the priority of messages
-void NDISender::setPriority(int priority) {
-    priority_ = priority;
-}
+bool NDISender::initializeNDI()
+{
+    if (initialized_) {
+        qDebug() << "NDI Sender already initialized.";
+        return true;
+    }
 
-// Send a message (string) over NDI
-bool NDISender::sendMessage(const std::string& message, int priority, const std::string& game) {
-    if (!ndiSend_) {
-        std::cerr << "NDI Sender not initialized." << std::endl;
+    qDebug() << "Initializing NDI Sender...";
+    if (!NDIlib_initialize()) {
+        qWarning() << "Failed to initialize NDI library.";
         return false;
     }
 
-    // Create JSON format
+    // Create NDI send instance for camera and mic
+    NDIlib_send_create_t sendDescCameraMic = {};
+    sendDescCameraMic.p_ndi_name = "Camera and Mic Stream";
+    ndiSendCameraMic_ = NDIlib_send_create(&sendDescCameraMic);
+    if (!ndiSendCameraMic_) {
+        qWarning() << "Failed to create NDI send instance for camera and mic.";
+        NDIlib_destroy();
+        return false;
+    }
+
+    // Create NDI send instance for screen share
+    NDIlib_send_create_t sendDescScreenShare = {};
+    sendDescScreenShare.p_ndi_name = "Screen Share Stream";
+    ndiSendScreenShare_ = NDIlib_send_create(&sendDescScreenShare);
+    if (!ndiSendScreenShare_) {
+        qWarning() << "Failed to create NDI send instance for screen share.";
+        NDIlib_send_destroy(ndiSendCameraMic_);
+        NDIlib_destroy();
+        return false;
+    }
+
+    initialized_ = true;
+    qDebug() << "NDI Sender initialized successfully.";
+    return true;
+}
+
+void NDISender::startAllStreams(const QString &cameraID, const QString &audioSource, const QString &applicationName)
+{
+    if (!initialized_) {
+        qWarning() << "NDI Sender not initialized.";
+        return;
+    }
+
+    if (senderWorker_) {
+        qWarning() << "Sender already running.";
+        return;
+    }
+
+    qDebug() << "Starting all streams with camera ID:" << cameraID << ", audio source:" << audioSource << ", application:" << applicationName;
+
+    senderWorker_ = new SenderWorker(ndiSendCameraMic_, ndiSendScreenShare_);
+    workerThread_ = new QThread(this);
+    senderWorker_->moveToThread(workerThread_);
+
+    connect(workerThread_, &QThread::started, senderWorker_, [=]() {
+        senderWorker_->start(cameraID, audioSource, applicationName);
+    });
+
+    connect(senderWorker_, &SenderWorker::finished, workerThread_, &QThread::quit);
+    connect(workerThread_, &QThread::finished, senderWorker_, &QObject::deleteLater);
+    connect(workerThread_, &QThread::finished, workerThread_, &QObject::deleteLater);
+
+    workerThread_->start();
+}
+
+void NDISender::sendMessage(const QString &message, int priority, const QString &application)
+{
+    if (!ndiSendCameraMic_) {
+        qWarning() << "NDI send instance not initialized.";
+        return;
+    }
+
     std::stringstream jsonMessage;
-    jsonMessage << "{"
-                << "\"priority\": " << priority << ","
-                << "\"message\": \"" << message << "\","
-                << "\"game\": \"" << game << "\""
-                << "}";
+    jsonMessage << "{\"priority\":" << priority
+                << ",\"message\":\"" << message.toStdString()
+                << "\",\"application\":\"" << application.toStdString() << "\"}";
 
-    // Convert string to char*
-    const char* jsonCString = jsonMessage.str().c_str();
+    std::string jsonString = jsonMessage.str();
 
-    // Send the message as metadata
-    NDIlib_metadata_frame_t metadata_frame;
-    metadata_frame.p_data = const_cast<char*>(jsonCString);
-    metadata_frame.length = strlen(jsonCString);
+    NDIlib_metadata_frame_t metadataFrame;
+    metadataFrame.p_data = const_cast<char *>(jsonString.c_str());
+    metadataFrame.length = static_cast<int>(jsonString.length());
+    metadataFrame.timecode = NDIlib_send_timecode_synthesize;
 
-    NDIlib_send_send_metadata(ndiSend_, &metadata_frame);
-
-    std::cout << "Message sent: " << jsonMessage.str() << std::endl;
-    return true;
+    NDIlib_send_add_connection_metadata(ndiSendCameraMic_, &metadataFrame);
 }
 
-// Send video from a file source
-bool NDISender::sendVideoSource(const std::string& sourcePath) {
-    if (!ndiSend_) {
-        std::cerr << "NDI Sender not initialized." << std::endl;
-        return false;
-    }
-
-    currentVideoSource_ = sourcePath;
-
-    const int width = 1920;
-    const int height = 1080;
-
-    for (int i = 0; i < 100; ++i) {
-        // Create an NDI video frame
-        NDIlib_video_frame_v2_t ndiVideoFrame;
-        ndiVideoFrame.xres = width;
-        ndiVideoFrame.yres = height;
-        ndiVideoFrame.FourCC = NDIlib_FourCC_type_RGBX; // Use RGBX pixel format
-        ndiVideoFrame.frame_rate_N = 30000; // 30fps (30,000/1000)
-        ndiVideoFrame.frame_rate_D = 1000;
-
-        // Allocate memory for the video frame
-        unsigned char* videoData = new unsigned char[width * height * 4];
-        if (!videoData) {
-            std::cerr << "Failed to allocate memory for video data." << std::endl;
-            return false;
+void NDISender::stopAll()
+{
+    if (senderWorker_) {
+        senderWorker_->stopAll();
+        if (workerThread_) {
+            workerThread_->quit();
+            workerThread_->wait();
+            workerThread_ = nullptr;
+            senderWorker_ = nullptr;
         }
-
-        // Fill the frame with a solid color
-        unsigned char colorValue = static_cast<unsigned char>((i * 2) % 255);
-        for (int pixel = 0; pixel < width * height; ++pixel) {
-            videoData[pixel * 4] = colorValue;
-            videoData[pixel * 4 + 1] = 0;
-            videoData[pixel * 4 + 2] = 0;
-            videoData[pixel * 4 + 3] = 255;
-        }
-
-        // Set the video frame data
-        ndiVideoFrame.p_data = videoData;
-        ndiVideoFrame.line_stride_in_bytes = width * 4;
-
-        // Send the video frame
-        NDIlib_send_send_video_v2(ndiSend_, &ndiVideoFrame);
-
-        std::this_thread::sleep_for(std::chrono::milliseconds(33));
-
-        delete[] videoData;
+        qDebug() << "All sending tasks stopped.";
     }
-
-    std::cout << "Completed sending video from source: " << currentVideoSource_ << std::endl;
-    return true;
 }
-
-// Camera and audio handling functions remain unchanged, except for adding thread safety.

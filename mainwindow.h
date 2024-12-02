@@ -3,6 +3,9 @@
 
 #include <QWidget>
 #include <QGraphicsScene>
+#include <QComboBox>
+#include <QMap>
+#include "ndi_sender.h"
 #include "ndi_receiver.h"
 
 QT_BEGIN_NAMESPACE
@@ -19,24 +22,30 @@ public:
     mainpage(QWidget *parent = nullptr);
     ~mainpage();
 
-private slots:
+    QStringList getRunningApplications();
+
 private slots:
     void on_selectSendButton_clicked();
     void on_selectReceiveButton_clicked();
     void on_senderBackButton_clicked();
     void on_receiverBackButton_clicked();
-    void on_pushButton_4_clicked();
     void on_sourceComboBox_currentTextChanged(const QString &text);
+    void on_sendSignalButton_clicked();
+
+    void populateApplicationSources();
+    void populateCameraSources();
+    void populateAudioSources();
 
     void updateAvailableSources(const QStringList &sources);
-    void displayVideoFrame(const QImage &frame);
-
-
+    void displayVideoFrame(const QString &sourceName, const QImage &frame);
 
 private:
     Ui::mainpage *ui;
     NDIReceiver *ndiReceiver;
-    QGraphicsScene *scene;
+    NDISender *ndiSender;
+    QMap<QString, QGraphicsScene*> scenes;
+    QMap<QString, QGraphicsView*> graphicsViews;
+    QMap<QString, QGraphicsScene*> sourceScenes;
 };
 
 #endif // MAINPAGE_H
