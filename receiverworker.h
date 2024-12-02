@@ -4,7 +4,7 @@
 #include <QObject>
 #include <Processing.NDI.Lib.h>
 #include <QImage>
-#include <atomic>
+#include <QTimer>
 
 class ReceiverWorker : public QObject
 {
@@ -15,14 +15,18 @@ public:
 
 signals:
     void frameReceived(const QImage &frame);
+    void finished();
 
 public slots:
-    void process();
+    void start();
     void stop();
+
+private slots:
+    void captureFrame();
 
 private:
     NDIlib_recv_instance_t ndiReceiverInstance;
-    std::atomic<bool> receiving;
+    QTimer *captureTimer;
 };
 
 #endif // RECEIVERWORKER_H

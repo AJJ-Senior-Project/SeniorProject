@@ -29,6 +29,7 @@ NDISender::~NDISender()
     }
 }
 
+
 bool NDISender::initializeNDI()
 {
     if (initialized_) {
@@ -126,6 +127,7 @@ void NDISender::stopAll()
         if (workerThread_) {
             workerThread_->quit();
             workerThread_->wait();
+            delete workerThread_;
             workerThread_ = nullptr;
             senderWorker_ = nullptr;
         }

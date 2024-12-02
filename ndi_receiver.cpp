@@ -60,19 +60,16 @@ void NDIReceiver::selectSource(const QString &sourceName)
 {
     std::lock_guard<std::mutex> lock(sourcesMutex);
 
-    // Check if we already have a receiver for this source
     if (ndiReceiverInstances.find(sourceName) != ndiReceiverInstances.end()) {
         qDebug() << "Already receiving from source:" << sourceName;
         return;
     }
 
-    // Retrieve the current list of sources
     uint32_t numSources = 0;
     const NDIlib_source_t* sources = NDIlib_find_get_current_sources(ndiFindInstance, &numSources);
 
     for (uint32_t i = 0; i < numSources; ++i) {
         if (QString::fromUtf8(sources[i].p_ndi_name) == sourceName) {
-            // Create the receiver instance with desired settings
             NDIlib_recv_create_v3_t recv_create_desc = {0};
             recv_create_desc.source_to_connect_to = sources[i];
             recv_create_desc.color_format = NDIlib_recv_color_format_BGRX_BGRA;
@@ -86,20 +83,22 @@ void NDIReceiver::selectSource(const QString &sourceName)
                 return;
             }
 
-            // Store the receiver instance
             ndiReceiverInstances[sourceName] = ndiReceiverInstance;
 
-            // Start receiving in a new thread
             QThread *thread = new QThread(this);
             ReceiverWorker *worker = new ReceiverWorker(ndiReceiverInstance);
 
             worker->moveToThread(thread);
 
-            connect(thread, &QThread::started, worker, &ReceiverWorker::process);
+            connect(thread, &QThread::started, worker, &ReceiverWorker::start);
             connect(worker, &ReceiverWorker::frameReceived, this, [this, sourceName](const QImage &frame) {
                 emit frameReceived(sourceName, frame);
             });
-            connect(this, &NDIReceiver::stopReceivingSignal, worker, &ReceiverWorker::stop);
+            connect(this, &NDIReceiver::stopReceivingSignal, worker, &ReceiverWorker::stop, Qt::QueuedConnection);
+
+            // Add this connection
+            connect(worker, &ReceiverWorker::finished, thread, &QThread::quit);
+
             connect(thread, &QThread::finished, worker, &QObject::deleteLater);
             connect(thread, &QThread::finished, thread, &QObject::deleteLater);
 
@@ -109,33 +108,47 @@ void NDIReceiver::selectSource(const QString &sourceName)
             thread->start();
 
             qDebug() << "Started receiving from source:" << sourceName;
-
-            break;
         }
     }
 }
 
 void NDIReceiver::stopReceiving()
 {
+    qDebug() << "NDIReceiver::stopReceiving() called. Emitting stopReceivingSignal.";
     emit stopReceivingSignal();
 
+    // Wait for all threads to finish
     for (auto &pair : receiverThreads) {
-        pair.second->quit();
-        pair.second->wait();
+        QThread *thread = pair.second;
+        if (thread->isRunning()) {
+            qDebug() << "Waiting for thread to finish...";
+            thread->wait(20);
+            qDebug() << "Thread finished.";
+        }
     }
 
-    for (auto &pair : ndiReceiverInstances) {
-        NDIlib_recv_destroy(pair.second);
+    // Clean up threads and workers
+    for (auto &pair : receiverThreads) {
+        delete pair.second; // Delete QThread
     }
-
-    ndiReceiverInstances.clear();
     receiverThreads.clear();
     receiverWorkers.clear();
+    ndiReceiverInstances.clear();
 }
+
+
 
 void NDIReceiver::terminateReceiver()
 {
     stopReceiving();
+
+    if (discoveryThread) {
+        discoveryThread->quit();
+        discoveryThread->wait();
+        delete discoveryThread;
+        discoveryThread = nullptr;
+        discoveryWorker = nullptr;
+    }
 
     if (ndiFindInstance) {
         NDIlib_find_destroy(ndiFindInstance);
