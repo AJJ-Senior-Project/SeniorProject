@@ -10,23 +10,9 @@
     <height>482</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
-  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
-   <item>
-    <widget class="QStackedWidget" name="stackedWidget">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
@@ -37,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="page">
     <widget class="QWidget" name="horizontalLayoutWidget">
@@ -49,321 +35,99 @@
        <height>32</height>
       </rect>
      </property>
-     <property name="currentIndex">
-      <number>1</number>
-     </property>
-     <widget class="QWidget" name="page">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_9">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Sending or Receiving?</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <item alignment="Qt::AlignmentFlag::AlignRight">
-            <widget class="QPushButton" name="selectSendButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Sending</string>
-             </property>
-            </widget>
-           </item>
-           <item alignment="Qt::AlignmentFlag::AlignLeft">
-            <widget class="QPushButton" name="selectReceiveButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Receiving</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="senderPage">
-      <property name="sizePolicy">
-       <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_11">
-       <item>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_10">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="topMargin">
-            <number>0</number>
-           </property>
-           <item alignment="Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop">
-            <widget class="QPushButton" name="senderBackButton">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>&lt;&lt; Back</string>
-             </property>
-            </widget>
-           </item>
-           <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
-            <widget class="QLabel" name="label_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>What would you like to send?</string>
-             </property>
-            </widget>
-           </item>
-           <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
-            <widget class="QComboBox" name="comboBox_3">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <item>
-              <property name="text">
-               <string>--Select an Application--</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
-            <widget class="QComboBox" name="comboBox_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <item>
-              <property name="text">
-               <string>--Select a Camera--</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
-            <widget class="QComboBox" name="comboBox">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <item>
-              <property name="text">
-               <string>--Select a Microphone--</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item alignment="Qt::AlignmentFlag::AlignHCenter|Qt::AlignmentFlag::AlignVCenter">
-            <widget class="QPushButton" name="pushButton_4">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Send Signal</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
-     <widget class="QWidget" name="receiverPage">
-      <widget class="QPushButton" name="receiverBackButton">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>0</y>
-         <width>100</width>
-         <height>32</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>&lt;&lt; Back</string>
-       </property>
-      </widget>
-      <widget class="QGraphicsView" name="graphicsView">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>70</y>
-         <width>221</width>
-         <height>171</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_3">
-       <property name="geometry">
-        <rect>
-         <x>90</x>
-         <y>50</y>
-         <width>51</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Preview</string>
-       </property>
-      </widget>
-      <widget class="QGraphicsView" name="graphicsView_2">
-       <property name="geometry">
-        <rect>
-         <x>390</x>
-         <y>70</y>
-         <width>221</width>
-         <height>171</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_4">
-       <property name="geometry">
-        <rect>
-         <x>470</x>
-         <y>50</y>
-         <width>58</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Program</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="pushButton_6">
-       <property name="geometry">
-        <rect>
-         <x>260</x>
-         <y>140</y>
-         <width>100</width>
-         <height>32</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Switch</string>
-       </property>
-      </widget>
-      <widget class="QWidget" name="gridLayoutWidget">
-       <property name="geometry">
-        <rect>
-         <x>389</x>
-         <y>309</y>
-         <width>221</width>
-         <height>160</height>
-        </rect>
-       </property>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <widget class="QGraphicsView" name="graphicsView_3"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QGraphicsView" name="graphicsView_4"/>
-        </item>
-        <item row="0" column="1">
-         <widget class="QGraphicsView" name="graphicsView_5"/>
-        </item>
-        <item row="1" column="1">
-         <widget class="QGraphicsView" name="graphicsView_6"/>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QLabel" name="label_5">
-       <property name="geometry">
-        <rect>
-         <x>450</x>
-         <y>280</y>
-         <width>111</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Incoming Streams</string>
-       </property>
-      </widget>
-      <widget class="QGraphicsView" name="graphicsView_7">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>311</y>
-         <width>221</width>
-         <height>181</height>
-        </rect>
-       </property>
-      </widget>
-      <widget class="QLabel" name="label_6">
-       <property name="geometry">
-        <rect>
-         <x>80</x>
-         <y>280</y>
-         <width>81</width>
-         <height>16</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Layout Editor</string>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="sourceComboBox">
-       <property name="geometry">
-        <rect>
-         <x>260</x>
-         <y>290</y>
-         <width>72</width>
-         <height>24</height>
-        </rect>
-       </property>
-      </widget>
-     </widget>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QPushButton" name="selectSendButton">
+        <property name="text">
+         <string>Sending</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="selectReceiveButton">
+        <property name="text">
+         <string>Receiving</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
-   </item>
-  </layout>
+    <widget class="QWidget" name="verticalLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>-10</x>
+       <y>99</y>
+       <width>661</width>
+       <height>58</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Sending or Receiving?</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="senderPage">
+    <widget class="QPushButton" name="senderBackButton">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>100</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;&lt; Back</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="verticalLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>139</x>
+       <y>69</y>
+       <width>341</width>
+       <height>221</height>
+      </rect>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>What would you like to send?</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_3">
+        <item>
+         <property name="text">
+          <string>--Select an Application--</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_2">
+        <item>
+         <property name="text">
+          <string>--Select a Camera--</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox">
+        <item>
+         <property name="text">
+          <string>--Select a Microphone--</string>
+         </property>
+        </item>
        </widget>
       </item>
       <item>
@@ -417,7 +181,7 @@
      <property name="geometry">
       <rect>
        <x>390</x>
-       <y>70</y>
+       <y>40</y>
        <width>221</width>
        <height>171</height>
       </rect>
@@ -427,7 +191,7 @@
      <property name="geometry">
       <rect>
        <x>470</x>
-       <y>50</y>
+       <y>20</y>
        <width>58</width>
        <height>16</height>
       </rect>
@@ -452,15 +216,15 @@
     <widget class="QWidget" name="gridLayoutWidget">
      <property name="geometry">
       <rect>
-       <x>389</x>
-       <y>309</y>
+       <x>390</x>
+       <y>240</y>
        <width>221</width>
-       <height>179</height>
+       <height>224</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
-       <widget class="QGraphicsView" name="graphicsView_3"/>
+      <item row="1" column="1">
+       <widget class="QGraphicsView" name="graphicsView_6"/>
       </item>
       <item row="1" column="0">
        <widget class="QGraphicsView" name="graphicsView_4"/>
@@ -468,8 +232,8 @@
       <item row="0" column="1">
        <widget class="QGraphicsView" name="graphicsView_5"/>
       </item>
-      <item row="1" column="1">
-       <widget class="QGraphicsView" name="graphicsView_6"/>
+      <item row="0" column="0">
+       <widget class="QGraphicsView" name="graphicsView_3"/>
       </item>
      </layout>
     </widget>
@@ -477,7 +241,7 @@
      <property name="geometry">
       <rect>
        <x>450</x>
-       <y>280</y>
+       <y>220</y>
        <width>111</width>
        <height>16</height>
       </rect>
@@ -486,21 +250,11 @@
       <string>Incoming Streams</string>
      </property>
     </widget>
-    <widget class="QGraphicsView" name="graphicsView_7">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>311</y>
-       <width>221</width>
-       <height>181</height>
-      </rect>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>80</x>
-       <y>280</y>
+       <x>70</x>
+       <y>250</y>
        <width>81</width>
        <height>16</height>
       </rect>
@@ -512,10 +266,20 @@
     <widget class="QComboBox" name="sourceComboBox">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>290</y>
+       <x>290</x>
+       <y>260</y>
        <width>72</width>
        <height>24</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QListWidget" name="listWidget">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>270</y>
+       <width>256</width>
+       <height>192</height>
       </rect>
      </property>
     </widget>

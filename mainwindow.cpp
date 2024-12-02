@@ -39,7 +39,7 @@ mainpage::mainpage(QWidget *parent)
     populateCameraSources();
     populateAudioSources();
 
-    QVBoxLayout *senderDropdown = ui->verticalLayout_10;
+    QVBoxLayout *senderDropdown = ui->verticalLayout_2;
     senderDropdown->setSpacing(1);
     senderDropdown->setContentsMargins(0, 0, 0, 0);
 
