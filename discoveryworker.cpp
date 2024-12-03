@@ -6,9 +6,7 @@ DiscoveryWorker::DiscoveryWorker(NDIlib_find_instance_t ndiFindInstance, QObject
 {
 }
 
-DiscoveryWorker::~DiscoveryWorker()
-{
-}
+DiscoveryWorker::~DiscoveryWorker(){}
 
 void DiscoveryWorker::process()
 {

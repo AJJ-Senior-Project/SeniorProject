@@ -16,23 +16,38 @@ mainpage::mainpage(QWidget *parent)
     , ndiSender(new NDISender())
 {
     ui->setupUi(this);
-
     // Set up the graphicsViews
     graphicsViews["graphicsView_3"] = ui->graphicsView_3;
     graphicsViews["graphicsView_4"] = ui->graphicsView_4;
     graphicsViews["graphicsView_5"] = ui->graphicsView_5;
     graphicsViews["graphicsView_6"] = ui->graphicsView_6;
+    graphicsViews["graphicsView_7"] = ui->graphicsView_7;
+    graphicsViews["graphicsView_8"] = ui->graphicsView_8;
+    graphicsViews["graphicsView_9"] = ui->graphicsView_9;
+    graphicsViews["graphicsView_10"] = ui->graphicsView_10;
+    graphicsViews["graphicsView_11"] = ui->graphicsView_11; // For additional 10th view
 
     // Initialize scenes
     scenes["graphicsView_3"] = new QGraphicsScene(this);
     scenes["graphicsView_4"] = new QGraphicsScene(this);
     scenes["graphicsView_5"] = new QGraphicsScene(this);
     scenes["graphicsView_6"] = new QGraphicsScene(this);
+    scenes["graphicsView_7"] = new QGraphicsScene(this);
+    scenes["graphicsView_8"] = new QGraphicsScene(this);
+    scenes["graphicsView_9"] = new QGraphicsScene(this);
+    scenes["graphicsView_10"] = new QGraphicsScene(this);
+    scenes["graphicsView_11"] = new QGraphicsScene(this); // For additional 10th view
+
 
     ui->graphicsView_3->setScene(scenes["graphicsView_3"]);
     ui->graphicsView_4->setScene(scenes["graphicsView_4"]);
     ui->graphicsView_5->setScene(scenes["graphicsView_5"]);
     ui->graphicsView_6->setScene(scenes["graphicsView_6"]);
+    ui->graphicsView_7->setScene(scenes["graphicsView_7"]);
+    ui->graphicsView_8->setScene(scenes["graphicsView_8"]);
+    ui->graphicsView_9->setScene(scenes["graphicsView_9"]);
+    ui->graphicsView_10->setScene(scenes["graphicsView_10"]);
+    ui->graphicsView_11->setScene(scenes["graphicsView_11"]); // For additional 10th view
 
     // Populate the source combo boxes
     populateApplicationSources();
@@ -104,7 +119,8 @@ void mainpage::updateAvailableSources(const QStringList &sources)
 
     // Assign sources to graphicsViews
     int index = 0;
-    QStringList graphicsViewNames = { "graphicsView_3", "graphicsView_4", "graphicsView_5", "graphicsView_6" };
+    QStringList graphicsViewNames = { "graphicsView_3", "graphicsView_4", "graphicsView_5", "graphicsView_6","graphicsView_7","graphicsView_8","graphicsView_9","graphicsView_10","graphicsView_11" };
+    qDebug()<<&"INDEX MAX " <<graphicsViewNames.size();
     foreach (const QString &source, sources) {
         if (index < graphicsViewNames.size()) {
             QString viewName = graphicsViewNames[index];
