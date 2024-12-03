@@ -8,14 +8,28 @@
 #include <QCameraDevice>
 #include <QDebug>
 #include <QVBoxLayout>
+#include <QEvent>
+#include <QMouseEvent>
+#include <QPainter>
+#include <QGraphicsEffect>
+#include <QGraphicsDropShadowEffect>
 
 mainpage::mainpage(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::mainpage)
     , ndiReceiver(new NDIReceiver())
     , ndiSender(new NDISender())
+    , ndiSendCombined(nullptr)
+    , combineAndSendTimer(nullptr)
+    , previewScene(new QGraphicsScene(this))
 {
     ui->setupUi(this);
+
+    // Initialize NDI library
+    if (!NDIlib_initialize()) {
+        qWarning() << "Failed to initialize NDI library.";
+    }
+
     // Set up the graphicsViews
     graphicsViews["graphicsView_3"] = ui->graphicsView_3;
     graphicsViews["graphicsView_4"] = ui->graphicsView_4;
@@ -38,7 +52,6 @@ mainpage::mainpage(QWidget *parent)
     scenes["graphicsView_10"] = new QGraphicsScene(this);
     scenes["graphicsView_11"] = new QGraphicsScene(this); // For additional 10th view
 
-
     ui->graphicsView_3->setScene(scenes["graphicsView_3"]);
     ui->graphicsView_4->setScene(scenes["graphicsView_4"]);
     ui->graphicsView_5->setScene(scenes["graphicsView_5"]);
@@ -48,6 +61,14 @@ mainpage::mainpage(QWidget *parent)
     ui->graphicsView_9->setScene(scenes["graphicsView_9"]);
     ui->graphicsView_10->setScene(scenes["graphicsView_10"]);
     ui->graphicsView_11->setScene(scenes["graphicsView_11"]); // For additional 10th view
+
+    // Install event filters on graphics views
+    foreach (QGraphicsView *view, graphicsViews.values()) {
+        view->installEventFilter(this);
+    }
+
+    // Set up the preview scene for graphicsView_2
+    ui->graphicsView_2->setScene(previewScene);
 
     // Populate the source combo boxes
     populateApplicationSources();
@@ -75,6 +96,20 @@ mainpage::~mainpage()
         delete ndiSender;
         ndiSender = nullptr;
     }
+
+    if (combineAndSendTimer) {
+        combineAndSendTimer->stop();
+        delete combineAndSendTimer;
+        combineAndSendTimer = nullptr;
+    }
+
+    if (ndiSendCombined) {
+        NDIlib_send_destroy(ndiSendCombined);
+        ndiSendCombined = nullptr;
+    }
+
+    NDIlib_destroy();
+
     delete ui;
 }
 
@@ -117,14 +152,22 @@ void mainpage::updateAvailableSources(const QStringList &sources)
     ui->sourceComboBox->clear();
     ui->sourceComboBox->addItems(sources);
 
+    // Clear existing mappings
+    viewToSourceMap.clear();
+    sourceScenes.clear();
+
     // Assign sources to graphicsViews
     int index = 0;
-    QStringList graphicsViewNames = { "graphicsView_3", "graphicsView_4", "graphicsView_5", "graphicsView_6","graphicsView_7","graphicsView_8","graphicsView_9","graphicsView_10","graphicsView_11" };
-    qDebug()<<&"INDEX MAX " <<graphicsViewNames.size();
+    QStringList graphicsViewNames = { "graphicsView_3", "graphicsView_4", "graphicsView_5", "graphicsView_6", "graphicsView_7", "graphicsView_8", "graphicsView_9", "graphicsView_10", "graphicsView_11" };
+    qDebug() << "INDEX MAX " << graphicsViewNames.size();
     foreach (const QString &source, sources) {
         if (index < graphicsViewNames.size()) {
             QString viewName = graphicsViewNames[index];
+            QGraphicsView *view = graphicsViews[viewName];
+
             sourceScenes[source] = scenes[viewName];
+            viewToSourceMap[view] = source; // Map view to source
+
             ndiReceiver->selectSource(source); // Automatically start receiving from this source
             ++index;
         } else {
@@ -132,6 +175,9 @@ void mainpage::updateAvailableSources(const QStringList &sources)
             break;
         }
     }
+
+    // Update highlights in case sources have changed
+    updateHighlights();
 }
 
 void mainpage::displayVideoFrame(const QString &sourceName, const QImage &frame)
@@ -158,9 +204,17 @@ void mainpage::displayVideoFrame(const QString &sourceName, const QImage &frame)
             break;
         }
     }
+
+    // Store frames for selected sources
+    frameMutex.lock();
+    if (sourceName == primarySourceName) {
+        primaryFrame = frame.copy();
+    } else if (sourceName == secondarySourceName) {
+        secondaryFrame = frame.copy();
+    }
+    frameMutex.unlock();
 }
 
-// Populate application sources in combo box
 void mainpage::populateApplicationSources()
 {
     QStringList applications = getRunningApplications();
@@ -180,7 +234,6 @@ QStringList mainpage::getRunningApplications()
                 auto appList = reinterpret_cast<QStringList*>(lParam);
                 appList->append(QString::fromWCharArray(windowTitle));
             }
-
         }
         return TRUE;
     }, reinterpret_cast<LPARAM>(&appList));
@@ -188,26 +241,23 @@ QStringList mainpage::getRunningApplications()
     return appList;
 }
 
-// Populate camera sources in combo box
 void mainpage::populateCameraSources()
 {
-    auto cameras = QMediaDevices::videoInputs();  // List of available video cameras
+    auto cameras = QMediaDevices::videoInputs(); // List of available video cameras
     for (const auto &camera : cameras) {
         ui->comboBox_2->addItem(camera.description(), QVariant::fromValue(camera.id()));
     }
 }
 
-// Populate audio sources in combo box
 void mainpage::populateAudioSources()
 {
-    auto audioInputs = QMediaDevices::audioInputs();  // List of available audio inputs
+    auto audioInputs = QMediaDevices::audioInputs(); // List of available audio inputs
     for (const QAudioDevice &audio : audioInputs) {
         QString deviceName = audio.description();
         ui->comboBox->addItem(deviceName, QVariant::fromValue(audio.id()));
     }
 }
 
-// Handle "Send" button click
 void mainpage::on_sendSignalButton_clicked()
 {
     QString selectedApplication = ui->comboBox_3->currentText();
@@ -225,4 +275,124 @@ void mainpage::on_sendSignalButton_clicked()
     ndiSender->startAllStreams(selectedCameraId, selectedAudioId, selectedApplication);
 
     qDebug() << "NDI streams started with selected options.";
+}
+
+bool mainpage::eventFilter(QObject *watched, QEvent *event)
+{
+    if (event->type() == QEvent::MouseButtonPress) {
+        QGraphicsView *view = qobject_cast<QGraphicsView*>(watched);
+        if (view && viewToSourceMap.contains(view)) {
+            onGraphicsViewClicked(viewToSourceMap[view]);
+            return true;
+        }
+    }
+    return QWidget::eventFilter(watched, event);
+}
+
+void mainpage::onGraphicsViewClicked(const QString &sourceName)
+{
+    if (primarySourceName.isEmpty()) {
+        primarySourceName = sourceName;
+        qDebug() << "Primary source selected:" << primarySourceName;
+    } else if (secondarySourceName.isEmpty()) {
+        if (sourceName != primarySourceName) {
+            secondarySourceName = sourceName;
+            qDebug() << "Secondary source selected:" << secondarySourceName;
+            // Both sources selected, start combining frames
+            startCombiningFrames();
+        }
+    } else {
+        // Reset selections if both already selected
+        primarySourceName = sourceName;
+        secondarySourceName.clear();
+        qDebug() << "Primary source re-selected:" << primarySourceName;
+    }
+
+    // Update the highlights on the graphics views
+    updateHighlights();
+}
+
+void mainpage::updateHighlights()
+{
+    foreach (QGraphicsView *view, graphicsViews.values()) {
+        QString sourceName = viewToSourceMap.value(view);
+        if (sourceName == primarySourceName) {
+            // Apply red border
+            view->setStyleSheet("border: 3px solid red;");
+        } else if (sourceName == secondarySourceName) {
+            // Apply blue border
+            view->setStyleSheet("border: 3px solid blue;");
+        } else {
+            // Remove border
+            view->setStyleSheet("");
+        }
+    }
+}
+
+void mainpage::startCombiningFrames()
+{
+    if (!combineAndSendTimer) {
+        combineAndSendTimer = new QTimer(this);
+        connect(combineAndSendTimer, &QTimer::timeout, this, &mainpage::combineAndSendFrames);
+    }
+    // Initialize NDI sender for combined frames
+    if (!ndiSendCombined) {
+        NDIlib_send_create_t sendDesc = {};
+        sendDesc.p_ndi_name = "NDIReceiver";
+        ndiSendCombined = NDIlib_send_create(&sendDesc);
+        if (!ndiSendCombined) {
+            qWarning() << "Failed to create NDI sender for combined frames.";
+            return;
+        }
+    }
+    combineAndSendTimer->start(33); // Approximately 30 fps
+}
+
+void mainpage::combineAndSendFrames()
+{
+    frameMutex.lock();
+    if (primaryFrame.isNull()) {
+        frameMutex.unlock();
+        qDebug() << "Primary frame is null.";
+        return;
+    }
+
+    QImage combinedImage = primaryFrame.copy();
+
+    if (!secondaryFrame.isNull()) {
+        QPainter painter(&combinedImage);
+        int pipWidth = combinedImage.width() / 4;
+        int pipHeight = combinedImage.height() / 4;
+        int pipX = combinedImage.width() - pipWidth - 10;
+        int pipY = combinedImage.height() - pipHeight - 10;
+
+        QImage scaledSecondary = secondaryFrame.scaled(pipWidth, pipHeight, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        painter.drawImage(pipX, pipY, scaledSecondary);
+    }
+    frameMutex.unlock();
+
+    // Display the combined image in graphicsView_2 (Preview)
+    previewScene->clear();
+    previewScene->addPixmap(QPixmap::fromImage(combinedImage));
+    ui->graphicsView_2->fitInView(previewScene->itemsBoundingRect(), Qt::KeepAspectRatio);
+
+    // Convert image to ARGB32 format if necessary
+    if (combinedImage.format() != QImage::Format_ARGB32) {
+        combinedImage = combinedImage.convertToFormat(QImage::Format_ARGB32);
+    }
+
+    // Prepare NDI video frame
+    QByteArray imageData((const char*)combinedImage.bits(), combinedImage.sizeInBytes());
+
+    NDIlib_video_frame_v2_t ndiFrame;
+    ndiFrame.xres = combinedImage.width();
+    ndiFrame.yres = combinedImage.height();
+    ndiFrame.FourCC = NDIlib_FourCC_type_BGRA;
+    ndiFrame.frame_rate_N = 30000;
+    ndiFrame.frame_rate_D = 1001;
+    ndiFrame.picture_aspect_ratio = static_cast<float>(combinedImage.width()) / static_cast<float>(combinedImage.height());
+    ndiFrame.line_stride_in_bytes = combinedImage.bytesPerLine();
+    ndiFrame.p_data = reinterpret_cast<uint8_t*>(imageData.data());
+
+    NDIlib_send_send_video_v2(ndiSendCombined, &ndiFrame);
 }
